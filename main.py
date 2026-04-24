@@ -3,7 +3,6 @@ from connect import connect_mongo, connect_cassandra, connect_dgraph
 
 def mostrar_menu():
     print("\n=== CONVIVE ITESO ===")
-    print("\n--- Cassandra ---")
     print("1. Historial reciente de asistencia de un usuario")
     print("2. Historial reciente de reservaciones de un usuario")
     print("3. Historial de asistencias por evento y fecha")
@@ -12,8 +11,6 @@ def mostrar_menu():
     print("6. Últimos 10 check-ins en un espacio")
     print("7. Historial de reservaciones canceladas")
     print("8. Participación histórica por tipo de actividad")
-
-    print("\n--- MongoDB ---")
     print("9. Consultar evento por ID")
     print("10. Eventos por tipo y fecha")
     print("11. Espacios disponibles para reserva")
@@ -22,8 +19,6 @@ def mostrar_menu():
     print("14. Total de eventos por tipo")
     print("15. Total de reservaciones por tipo de espacio")
     print("16. Eventos con mayor demanda")
-
-    print("\n--- Dgraph ---")
     print("17. Usuarios que coinciden en eventos con un usuario")
     print("18. Eventos en los que coinciden usuarios de distintos roles")
     print("19. Usuarios vinculados a eventos organizados por cierta área")
@@ -32,7 +27,6 @@ def mostrar_menu():
     print("22. Organizadores relacionados con tipos de usuarios")
     print("23. Usuarios vinculados por un mismo evento o espacio")
     print("24. Tipos de eventos que conectan más usuarios")
-
     print("\n0. Salir")
 
 
