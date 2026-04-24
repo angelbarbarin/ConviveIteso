@@ -26,4 +26,4 @@ def connect_cassandra(hosts=None, keyspace="convive_iteso"):
 
 def connect_dgraph():
     print("Conexión a Dgraph pendiente de implementar")
-    return None
+    pass

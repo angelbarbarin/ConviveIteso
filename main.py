@@ -1,4 +1,4 @@
-
+from connect import connect_mongo, connect_cassandra, connect_dgraph
 
 def mostrar_menu():
     print("\n=== Convive ITESO ===")
@@ -13,7 +13,9 @@ def mostrar_menu():
     
 
 def main():
-
+    mongo = connect_mongo()
+    cassandra = connect_cassandra()
+    dgraph = connect_dgraph()
 
     while True:
         mostrar_menu()
