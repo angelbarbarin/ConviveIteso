@@ -1,0 +1,4 @@
+user_id,attendance_timestamp,event_id,event_name,event_type,attendance_status,event_date
+USER001,2026-05-20 09:45:00,EVT001,Hackathon IA,Academico,checked_in,2026-05-20
+USER002,2026-05-20 09:48:00,EVT001,Hackathon IA,Academico,checked_in,2026-05-20
+USER010,2026-05-21 17:50:00,EVT002,Torneo Tocho,Deportivo,checked_in,2026-05-21

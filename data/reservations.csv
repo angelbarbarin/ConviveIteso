@@ -1,0 +1,4 @@
+reservation_id,user_id,user_name,space_id,space_name,space_type,date,time,status,reservation_type,reservation_timestamp,cancellation_timestamp,cancellation_reason,related_event_id
+RES001,USER001,Usuario001,SPC003,Sala Estudio 1,study_room,2026-05-10,10:00,confirmed,study,2026-05-01 10:20:00,,,
+RES002,USER002,Usuario002,SPC018,Sala Consejo,meeting_room,2026-05-10,12:00,cancelled,meeting,2026-05-01 12:00:00,2026-05-02 09:00:00,Cambio de horario,
+RES003,USER003,Usuario003,SPC007,Cancha Tocho,sports,2026-05-11,18:00,confirmed,sports,2026-05-03 14:00:00,,,EVT002

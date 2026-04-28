@@ -1,0 +1,5 @@
+role_id,role_type,role_scope
+ROLE001,estudiante,internal
+ROLE002,docente,internal
+ROLE003,administrativo,internal
+ROLE004,invitado,external

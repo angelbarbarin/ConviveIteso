@@ -1,0 +1,4 @@
+space_id,checkin_timestamp,user_id,space_name,activity_context,status
+SPC003,2026-05-10 10:01:00,USER001,Sala Estudio 1,study_session,active
+SPC007,2026-05-10 18:05:00,USER010,Cancha Tocho,practice,active
+SPC018,2026-05-11 15:10:00,USER015,Sala Consejo,meeting,active

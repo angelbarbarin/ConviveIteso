@@ -1,0 +1,6 @@
+event_id,event_name,event_type,description,date,time,capacity,registered_attendees,available_seats,space_id,space_name,space_type,organizer_id,organizer_name,department,event_status
+EVT001,Hackathon IA,Academico,Competencia IA,2026-05-20,10:00,120,95,25,SPC019,Auditorio C,auditorio,ORG001,Coordinacion Ingenieria,Ingenieria,scheduled
+EVT002,Torneo Tocho,Deportivo,Torneo interno,2026-05-21,18:00,60,48,12,SPC007,Cancha Tocho,sports,ORG003,Deportes ITESO,Deportes,scheduled
+EVT003,Obra Teatro,Cultural,Presentacion cultural,2026-05-22,19:00,140,132,8,SPC013,Foro Cultural,forum,ORG002,Centro Cultura,Cultura,scheduled
+EVT004,Networking Startup,Emprendimiento,Conexion startups,2026-05-23,16:00,80,67,13,SPC025,Plaza Central,open_space,ORG005,Emprendimiento Hub,Negocios,scheduled
+EVT005,Seminario Datos,Academico,Seminario BDNR,2026-05-24,11:00,100,74,26,SPC001,Auditorio A,auditorio,ORG001,Coordinacion Ingenieria,Ingenieria,scheduled

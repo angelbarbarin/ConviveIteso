@@ -1,0 +1,26 @@
+space_id,space_name,space_type,capacity,availability_status,available_date,start_time,end_time,slot_status
+SPC001,Auditorio A,auditorio,180,available,2026-05-10,09:00,11:00,available
+SPC002,Auditorio B,auditorio,140,available,2026-05-10,11:00,13:00,available
+SPC003,Sala Estudio 1,study_room,8,available,2026-05-10,10:00,12:00,available
+SPC004,Sala Estudio 2,study_room,8,available,2026-05-10,12:00,14:00,available
+SPC005,Sala Estudio 3,study_room,10,available,2026-05-10,15:00,17:00,available
+SPC006,Cancha Futbol,sports,30,available,2026-05-10,17:00,19:00,available
+SPC007,Cancha Tocho,sports,24,available,2026-05-10,18:00,20:00,available
+SPC008,Salon D101,classroom,35,available,2026-05-11,09:00,11:00,available
+SPC009,Salon D102,classroom,35,available,2026-05-11,11:00,13:00,available
+SPC010,Salon D103,classroom,35,available,2026-05-11,14:00,16:00,available
+SPC011,Lab Sistemas 1,laboratory,28,available,2026-05-11,10:00,12:00,available
+SPC012,Lab Sistemas 2,laboratory,28,available,2026-05-11,12:00,14:00,available
+SPC013,Foro Cultural,forum,120,available,2026-05-12,16:00,18:00,available
+SPC014,Terraza Norte,open_space,50,available,2026-05-12,17:00,19:00,available
+SPC015,Biblioteca Sala A,study_room,12,available,2026-05-12,09:00,11:00,available
+SPC016,Biblioteca Sala B,study_room,12,available,2026-05-12,11:00,13:00,available
+SPC017,Maker Space,laboratory,20,available,2026-05-13,13:00,15:00,available
+SPC018,Sala Consejo,meeting_room,18,available,2026-05-13,15:00,17:00,available
+SPC019,Auditorio C,auditorio,220,available,2026-05-13,18:00,20:00,available
+SPC020,Cancha Basquet,sports,20,available,2026-05-14,18:00,20:00,available
+SPC021,Salon G201,classroom,40,available,2026-05-14,09:00,11:00,available
+SPC022,Salon G202,classroom,40,available,2026-05-14,11:00,13:00,available
+SPC023,Sala Innovacion,meeting_room,16,available,2026-05-14,14:00,16:00,available
+SPC024,Huerto Campus,outdoor,25,available,2026-05-15,10:00,12:00,available
+SPC025,Plaza Central,open_space,200,available,2026-05-15,17:00,19:00,available
