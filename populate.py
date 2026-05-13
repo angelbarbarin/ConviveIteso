@@ -1,5 +1,7 @@
 import csv
 from datetime import datetime
+import pydgraph
+from xmlrpc import client
 from connect import get_mongo_db, get_cassandra_session, get_dgraph_client
 
 
@@ -482,12 +484,15 @@ def set_dgraph_schema(client):
     }
     """
 
-    client.alter_schema(schema)
+    client.set_schema(schema)
 
 
 def populate_dgraph():
-    client = get_dgraph_client()
-    client.alter_drop_all()
+    client = get_dgraph_client()    
+
+    op = pydgraph.Operation(drop_all=True)
+    client.alter(op)
+
     set_dgraph_schema(client)
 
     users = read_csv("users.csv")
