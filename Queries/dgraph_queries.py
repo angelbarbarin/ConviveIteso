@@ -565,18 +565,296 @@ def dgraph_r5_espacios_por_usuario_y_tipo_evento(client):
 
 # =========================================================
 # DGRAPH R6
-# Organizadores relacionados con tipos de usuarios
+# Organizadores relacionados con tipos de usuarios participantes
 # =========================================================
 
-# TODO
+def dgraph_r6_organizadores_por_tipo_usuario(client):
+    print("\n===== DGRAPH R6 =====")
+    print("Organizadores relacionados con tipos de usuarios participantes")
+    print("\nEsta consulta muestra qué tipos de usuarios participan en eventos de cada organizador.")
+    print("Roles posibles: estudiante, docente, administrativo, invitado")
+    print("Puedes dejar vacío el filtro para mostrar todos los roles.\n")
 
+    role_filter = input("Filtrar por tipo de rol (opcional): ").strip().lower()
+
+    query = """
+    {
+      organizers(func: type(Organizer)) {
+        organizer_id
+        organizer_name
+        department
+
+        ~organized_by {
+          event_id
+          event_name
+
+          ~participates_in {
+            user_id
+            user_name
+
+            has_role {
+              role_type
+            }
+          }
+        }
+      }
+    }
+    """
+
+    response = client.txn(read_only=True).query(query)
+    data = json.loads(response.json)
+
+    organizers = data.get("organizers", [])
+
+    if not organizers:
+        print("No se encontraron organizadores registrados.")
+        return
+
+    print("\n===== ORGANIZADORES Y TIPOS DE USUARIOS PARTICIPANTES =====\n")
+
+    found_results = False
+
+    for organizer in organizers:
+        organizer_id = organizer.get("organizer_id")
+        organizer_name = organizer.get("organizer_name")
+        department = organizer.get("department")
+
+        events = ensure_list(organizer.get("~organized_by", []))
+
+        role_stats = {}
+
+        for event in events:
+            participants = ensure_list(event.get("~participates_in", []))
+
+            for participant in participants:
+                roles = ensure_list(participant.get("has_role", []))
+
+                for role in roles:
+                    role_type = role.get("role_type")
+
+                    if not role_type:
+                        continue
+
+                    role_type_normalized = role_type.lower()
+
+                    if role_filter and role_type_normalized != role_filter:
+                        continue
+
+                    if role_type not in role_stats:
+                        role_stats[role_type] = {
+                            "event_ids": set(),
+                            "participant_ids": set()
+                        }
+
+                    role_stats[role_type]["event_ids"].add(event.get("event_id"))
+                    role_stats[role_type]["participant_ids"].add(participant.get("user_id"))
+
+        if not role_stats:
+            continue
+
+        found_results = True
+
+        formatted_organizer_id = f"ORG{organizer_id:03d}"
+
+        print("--------------------------------------------------")
+        print(f"Organizador: {organizer_name} ({formatted_organizer_id})")
+        print(f"Departamento: {department}")
+        print("\nTipos de usuarios relacionados:")
+
+        for role_type, stats in role_stats.items():
+            event_count = len(stats["event_ids"])
+            participant_count = len(stats["participant_ids"])
+
+            evento_texto = "evento" if event_count == 1 else "eventos"
+            participante_texto = "participante" if participant_count == 1 else "participantes"
+
+            print(
+                f"- {role_type}: presente en {event_count} {evento_texto}, "
+                f"con {participant_count} {participante_texto} únicos."
+            )
+
+        print("--------------------------------------------------\n")
+
+    if not found_results:
+        if role_filter:
+            print(f"No se encontraron organizadores relacionados con el rol: {role_filter}")
+        else:
+            print("No se encontraron relaciones entre organizadores y tipos de usuarios.")
 
 # =========================================================
 # DGRAPH R7
-# Usuarios vinculados por mismo evento o espacio
+# Usuarios vinculados por un mismo evento o espacio
 # =========================================================
 
-# TODO
+def dgraph_r7_usuarios_vinculados_evento_o_espacio(client):
+    print("\n===== DGRAPH R7 =====")
+    print("Usuarios vinculados por un mismo evento o espacio")
+    print("\nEsta consulta muestra personas relacionadas contigo por haber compartido eventos o espacios.")
+    print("Puedes buscar por nombre, código institucional o código interno.")
+    print("Ejemplos válidos: Diego Alvarez, A001, USER001\n")
+
+    user_input = input("Ingresa el usuario: ").strip()
+
+    user_id = resolve_user_input(client, user_input)
+
+    if user_id is None:
+        print("No se encontró el usuario. Intenta con USER001, A001 o el nombre completo.")
+        return
+
+    query = """
+    query usuariosRelacionados($user_id: int) {
+      user(func: eq(user_id, $user_id)) {
+        user_id
+        user_name
+        campus_id
+
+        participates_in {
+          event_id
+          event_name
+
+          ~participates_in {
+            related_user_id: user_id
+            related_user_name: user_name
+          }
+        }
+
+        uses_space {
+          space_id
+          space_name
+
+          ~uses_space {
+            related_user_id: user_id
+            related_user_name: user_name
+          }
+        }
+      }
+    }
+    """
+
+    variables = {
+        "$user_id": str(user_id)
+    }
+
+    response = client.txn(read_only=True).query(query, variables=variables)
+    data = json.loads(response.json)
+
+    users = data.get("user", [])
+
+    if not users:
+        print("No se encontró información del usuario.")
+        return
+
+    user = users[0]
+    user_name = user.get("user_name")
+    campus_id = user.get("campus_id")
+
+    related_users = {}
+
+    # Relación por eventos compartidos
+    for event in ensure_list(user.get("participates_in", [])):
+        event_name = event.get("event_name")
+        event_id = event.get("event_id")
+
+        for related_user in ensure_list(event.get("~participates_in", [])):
+            related_id = related_user.get("related_user_id")
+            related_name = related_user.get("related_user_name")
+
+            if related_id == user_id:
+                continue
+
+            if related_id not in related_users:
+                related_users[related_id] = {
+                    "user_name": related_name,
+                    "shared_events": set(),
+                    "shared_spaces": set()
+                }
+
+            related_users[related_id]["shared_events"].add(
+                f"{event_name} (EVT{event_id:03d})"
+            )
+
+    # Relación por espacios compartidos
+    for space in ensure_list(user.get("uses_space", [])):
+        space_name = space.get("space_name")
+        space_id = space.get("space_id")
+
+        for related_user in ensure_list(space.get("~uses_space", [])):
+            related_id = related_user.get("related_user_id")
+            related_name = related_user.get("related_user_name")
+
+            if related_id == user_id:
+                continue
+
+            if related_id not in related_users:
+                related_users[related_id] = {
+                    "user_name": related_name,
+                    "shared_events": set(),
+                    "shared_spaces": set()
+                }
+
+            related_users[related_id]["shared_spaces"].add(
+                f"{space_name} (SPC{space_id:03d})"
+            )
+
+    if not related_users:
+        print(f"No se encontraron usuarios relacionados con {user_name}.")
+        return
+
+    sorted_related = sorted(
+        related_users.items(),
+        key=lambda item: (
+            len(item[1]["shared_events"]) + len(item[1]["shared_spaces"])
+        ),
+        reverse=True
+    )
+
+    print("\n===== USUARIOS RELACIONADOS POR EVENTOS O ESPACIOS =====\n")
+    print(f"Usuario base: {user_name}")
+    print(f"Código institucional: {campus_id}")
+    print(f"Usuarios relacionados encontrados: {len(sorted_related)}\n")
+
+    event_relations = sum(
+        1 for info in related_users.values()
+        if len(info["shared_events"]) > 0
+    )
+
+    space_relations = sum(
+        1 for info in related_users.values()
+        if len(info["shared_spaces"]) > 0
+    )
+
+    print(f"Relaciones por eventos: {event_relations}")
+    print(f"Relaciones por espacios: {space_relations}\n")
+
+    for index, (related_id, info) in enumerate(sorted_related, start=1):
+        formatted_related_id = f"USER{related_id:03d}"
+
+        shared_events = sorted(info["shared_events"])
+        shared_spaces = sorted(info["shared_spaces"])
+
+        print("--------------------------------------------------")
+        print(f"{index}. {info['user_name']} ({formatted_related_id})")
+
+        if shared_events:
+            print(f"Eventos compartidos ({len(shared_events)}):")
+            for event in shared_events[:5]:
+                print(f"  - {event}")
+
+        if shared_spaces:
+            print(f"Espacios compartidos ({len(shared_spaces)}):")
+            for space in shared_spaces[:5]:
+                print(f"  - {space}")
+
+        if shared_events and shared_spaces:
+            print("Relación detectada: coincidencia por evento y espacio.")
+        elif shared_events:
+            print("Relación detectada: coincidencia por evento.")
+        elif shared_spaces:
+            print("Relación detectada: coincidencia por espacio.")
+
+        print("--------------------------------------------------\n")
+
+    print("Consulta finalizada.")  
 
 
 # =========================================================
@@ -584,4 +862,99 @@ def dgraph_r5_espacios_por_usuario_y_tipo_evento(client):
 # Tipos de eventos que conectan más usuarios
 # =========================================================
 
-# TODO
+def dgraph_r8_tipos_eventos_conectan_usuarios(client):
+    print("\n===== DGRAPH R8 =====")
+    print("Tipos de eventos que conectan más usuarios")
+    print("\nEsta consulta analiza qué tipos de eventos generan más conexiones entre participantes.\n")
+
+    query = """
+    {
+      events(func: type(Event)) {
+        event_id
+        event_name
+        event_type
+
+        ~participates_in {
+          user_id
+          user_name
+        }
+      }
+    }
+    """
+
+    response = client.txn(read_only=True).query(query)
+    data = json.loads(response.json)
+
+    events = data.get("events", [])
+
+    if not events:
+        print("No se encontraron eventos registrados.")
+        return
+
+    event_type_stats = {}
+
+    for event in events:
+        event_type = event.get("event_type", "Sin tipo")
+        participants = ensure_list(event.get("~participates_in", []))
+
+        participant_ids = {
+            participant.get("user_id")
+            for participant in participants
+            if participant.get("user_id") is not None
+        }
+
+        participant_count = len(participant_ids)
+
+        # Fórmula de conexiones posibles entre usuarios:
+        # n * (n - 1) / 2
+        shared_participation_count = (
+            participant_count * (participant_count - 1)
+        ) // 2
+
+        if event_type not in event_type_stats:
+            event_type_stats[event_type] = {
+                "connected_users": set(),
+                "shared_participation_count": 0,
+                "events_count": 0
+            }
+
+        event_type_stats[event_type]["connected_users"].update(participant_ids)
+        event_type_stats[event_type]["shared_participation_count"] += shared_participation_count
+        event_type_stats[event_type]["events_count"] += 1
+
+    results = []
+
+    for event_type, stats in event_type_stats.items():
+        results.append({
+            "event_type": event_type,
+            "connected_users_count": len(stats["connected_users"]),
+            "shared_participation_count": stats["shared_participation_count"],
+            "events_count": stats["events_count"]
+        })
+
+    results = sorted(
+        results,
+        key=lambda x: x["shared_participation_count"],
+        reverse=True
+    )
+
+    print("\n===== TIPOS DE EVENTO CON MAYOR CONEXIÓN ENTRE USUARIOS =====\n")
+
+    for index, result in enumerate(results, start=1):
+        tipo_evento = result["event_type"]
+        connected_users_count = result["connected_users_count"]
+        shared_participation_count = result["shared_participation_count"]
+        events_count = result["events_count"]
+
+        print("--------------------------------------------------")
+        print(f"{index}. Tipo de evento: {tipo_evento}")
+        print(f"Eventos analizados: {events_count}")
+        print(f"Usuarios conectados: {connected_users_count}")
+        print(f"Conexiones generadas entre participantes: {shared_participation_count}")
+
+        if index == 1:
+            print("Este es el tipo de evento que más conecta usuarios en la plataforma.")
+
+        print("--------------------------------------------------\n")
+
+    print("Consulta finalizada.")

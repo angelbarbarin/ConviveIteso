@@ -1,6 +1,6 @@
 from connect import get_dgraph_client
-from Queries.dgraph_queries import dgraph_r5_espacios_por_usuario_y_tipo_evento
+from Queries.dgraph_queries import dgraph_r8_tipos_eventos_conectan_usuarios
 
 client = get_dgraph_client()
 
-dgraph_r5_espacios_por_usuario_y_tipo_evento(client)
+dgraph_r8_tipos_eventos_conectan_usuarios(client)
