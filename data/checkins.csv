@@ -1,4 +1,251 @@
 space_id,checkin_timestamp,user_id,space_name,activity_context,status
-SPC003,2026-05-10 10:01:00,USER001,Sala Estudio 1,study_session,active
-SPC007,2026-05-10 18:05:00,USER010,Cancha Tocho,practice,active
-SPC018,2026-05-11 15:10:00,USER015,Sala Consejo,meeting,active
+SPC001,2026-05-11 15:19:00,USER001,Auditorio A,team_work,completed
+SPC002,2026-05-12 18:16:00,USER002,Auditorio B,study_session,active
+SPC003,2026-05-13 13:22:00,USER003,Sala Estudio 1,study_session,completed
+SPC004,2026-05-14 13:07:00,USER004,Sala Estudio 2,practice,completed
+SPC005,2026-05-15 17:47:00,USER005,Sala Estudio 3,event_attendance,completed
+SPC006,2026-05-16 15:11:00,USER006,Cancha Futbol,event_attendance,completed
+SPC007,2026-05-17 15:51:00,USER007,Cancha Tocho,team_work,completed
+SPC008,2026-05-18 09:46:00,USER008,Salon D101,event_attendance,active
+SPC009,2026-05-19 17:38:00,USER009,Salon D102,meeting,completed
+SPC010,2026-05-20 15:06:00,USER010,Salon D103,study_session,completed
+SPC011,2026-05-21 13:19:00,USER011,Lab Sistemas 1,event_attendance,completed
+SPC012,2026-05-22 10:44:00,USER012,Lab Sistemas 2,event_attendance,completed
+SPC013,2026-05-23 18:02:00,USER013,Foro Cultural,practice,completed
+SPC014,2026-05-24 13:40:00,USER014,Terraza Norte,study_session,active
+SPC015,2026-05-25 17:23:00,USER015,Biblioteca Sala A,team_work,active
+SPC016,2026-05-26 08:09:00,USER016,Biblioteca Sala B,team_work,completed
+SPC017,2026-05-27 08:08:00,USER017,Maker Space,study_session,active
+SPC018,2026-05-28 15:23:00,USER018,Sala Consejo,event_attendance,active
+SPC019,2026-05-29 10:43:00,USER019,Auditorio C,event_attendance,completed
+SPC020,2026-05-30 15:28:00,USER020,Cancha Basquet,study_session,active
+SPC021,2026-05-31 15:25:00,USER021,Salon G201,practice,completed
+SPC022,2026-06-01 11:07:00,USER022,Salon G202,study_session,active
+SPC023,2026-06-02 18:33:00,USER023,Sala Innovacion,event_attendance,active
+SPC024,2026-06-03 13:49:00,USER024,Huerto Campus,practice,completed
+SPC025,2026-06-04 11:39:00,USER025,Plaza Central,practice,completed
+SPC001,2026-06-05 11:07:00,USER026,Auditorio A,meeting,active
+SPC002,2026-06-06 18:11:00,USER027,Auditorio B,event_attendance,active
+SPC003,2026-06-07 15:42:00,USER028,Sala Estudio 1,practice,active
+SPC004,2026-06-08 13:19:00,USER029,Sala Estudio 2,meeting,active
+SPC005,2026-05-10 15:32:00,USER030,Sala Estudio 3,meeting,active
+SPC006,2026-05-11 11:50:00,USER031,Cancha Futbol,meeting,active
+SPC007,2026-05-12 18:01:00,USER032,Cancha Tocho,practice,completed
+SPC008,2026-05-13 18:51:00,USER033,Salon D101,team_work,active
+SPC009,2026-05-14 09:04:00,USER034,Salon D102,practice,completed
+SPC010,2026-05-15 18:33:00,USER035,Salon D103,event_attendance,completed
+SPC011,2026-05-16 09:08:00,USER036,Lab Sistemas 1,practice,active
+SPC012,2026-05-17 18:29:00,USER037,Lab Sistemas 2,team_work,completed
+SPC013,2026-05-18 10:53:00,USER038,Foro Cultural,team_work,active
+SPC014,2026-05-19 10:27:00,USER039,Terraza Norte,team_work,active
+SPC015,2026-05-20 09:33:00,USER040,Biblioteca Sala A,meeting,completed
+SPC016,2026-05-21 10:10:00,USER041,Biblioteca Sala B,practice,active
+SPC017,2026-05-22 15:33:00,USER042,Maker Space,practice,active
+SPC018,2026-05-23 13:12:00,USER043,Sala Consejo,team_work,completed
+SPC019,2026-05-24 10:40:00,USER044,Auditorio C,practice,active
+SPC020,2026-05-25 10:37:00,USER045,Cancha Basquet,team_work,active
+SPC021,2026-05-26 10:42:00,USER046,Salon G201,team_work,completed
+SPC022,2026-05-27 08:52:00,USER047,Salon G202,study_session,active
+SPC023,2026-05-28 08:41:00,USER048,Sala Innovacion,team_work,completed
+SPC024,2026-05-29 11:49:00,USER049,Huerto Campus,team_work,completed
+SPC025,2026-05-30 08:31:00,USER050,Plaza Central,team_work,completed
+SPC001,2026-05-31 13:30:00,USER051,Auditorio A,meeting,completed
+SPC002,2026-06-01 13:29:00,USER052,Auditorio B,study_session,active
+SPC003,2026-06-02 10:28:00,USER053,Sala Estudio 1,event_attendance,completed
+SPC004,2026-06-03 18:13:00,USER054,Sala Estudio 2,practice,active
+SPC005,2026-06-04 15:55:00,USER055,Sala Estudio 3,practice,completed
+SPC006,2026-06-05 17:08:00,USER056,Cancha Futbol,practice,active
+SPC007,2026-06-06 15:15:00,USER057,Cancha Tocho,event_attendance,active
+SPC008,2026-06-07 13:28:00,USER058,Salon D101,meeting,active
+SPC009,2026-06-08 09:03:00,USER059,Salon D102,practice,completed
+SPC010,2026-05-10 17:15:00,USER060,Salon D103,meeting,completed
+SPC011,2026-05-11 15:12:00,USER061,Lab Sistemas 1,meeting,completed
+SPC012,2026-05-12 18:31:00,USER062,Lab Sistemas 2,practice,completed
+SPC013,2026-05-13 08:05:00,USER063,Foro Cultural,event_attendance,completed
+SPC014,2026-05-14 11:13:00,USER064,Terraza Norte,team_work,completed
+SPC015,2026-05-15 08:03:00,USER065,Biblioteca Sala A,practice,completed
+SPC016,2026-05-16 18:18:00,USER066,Biblioteca Sala B,team_work,active
+SPC017,2026-05-17 09:27:00,USER067,Maker Space,meeting,completed
+SPC018,2026-05-18 15:48:00,USER068,Sala Consejo,event_attendance,completed
+SPC019,2026-05-19 08:25:00,USER069,Auditorio C,study_session,active
+SPC020,2026-05-20 15:35:00,USER070,Cancha Basquet,practice,active
+SPC021,2026-05-21 17:32:00,USER071,Salon G201,event_attendance,completed
+SPC022,2026-05-22 09:08:00,USER072,Salon G202,study_session,completed
+SPC023,2026-05-23 15:50:00,USER073,Sala Innovacion,practice,completed
+SPC024,2026-05-24 10:12:00,USER074,Huerto Campus,team_work,completed
+SPC025,2026-05-25 08:02:00,USER075,Plaza Central,study_session,active
+SPC001,2026-05-26 15:51:00,USER076,Auditorio A,event_attendance,completed
+SPC002,2026-05-27 10:38:00,USER077,Auditorio B,team_work,active
+SPC003,2026-05-28 15:39:00,USER078,Sala Estudio 1,practice,active
+SPC004,2026-05-29 17:39:00,USER079,Sala Estudio 2,practice,completed
+SPC005,2026-05-30 18:45:00,USER080,Sala Estudio 3,team_work,completed
+SPC006,2026-05-31 18:52:00,USER081,Cancha Futbol,study_session,completed
+SPC007,2026-06-01 15:43:00,USER082,Cancha Tocho,study_session,completed
+SPC008,2026-06-02 13:50:00,USER083,Salon D101,study_session,completed
+SPC009,2026-06-03 13:41:00,USER084,Salon D102,team_work,active
+SPC010,2026-06-04 08:37:00,USER085,Salon D103,event_attendance,active
+SPC011,2026-06-05 17:09:00,USER086,Lab Sistemas 1,meeting,active
+SPC012,2026-06-06 09:12:00,USER087,Lab Sistemas 2,study_session,completed
+SPC013,2026-06-07 15:26:00,USER088,Foro Cultural,meeting,completed
+SPC014,2026-06-08 11:26:00,USER089,Terraza Norte,team_work,completed
+SPC015,2026-05-10 08:45:00,USER090,Biblioteca Sala A,meeting,active
+SPC016,2026-05-11 15:42:00,USER091,Biblioteca Sala B,event_attendance,completed
+SPC017,2026-05-12 15:11:00,USER092,Maker Space,event_attendance,completed
+SPC018,2026-05-13 15:43:00,USER093,Sala Consejo,practice,completed
+SPC019,2026-05-14 11:15:00,USER094,Auditorio C,practice,completed
+SPC020,2026-05-15 11:19:00,USER095,Cancha Basquet,practice,active
+SPC021,2026-05-16 18:20:00,USER096,Salon G201,event_attendance,completed
+SPC022,2026-05-17 13:18:00,USER097,Salon G202,study_session,completed
+SPC023,2026-05-18 17:52:00,USER098,Sala Innovacion,practice,active
+SPC024,2026-05-19 13:02:00,USER099,Huerto Campus,practice,active
+SPC025,2026-05-20 15:28:00,USER100,Plaza Central,practice,completed
+SPC001,2026-05-21 11:12:00,USER001,Auditorio A,team_work,completed
+SPC002,2026-05-22 13:08:00,USER002,Auditorio B,study_session,active
+SPC003,2026-05-23 11:03:00,USER003,Sala Estudio 1,team_work,active
+SPC004,2026-05-24 11:03:00,USER004,Sala Estudio 2,study_session,completed
+SPC005,2026-05-25 15:45:00,USER005,Sala Estudio 3,event_attendance,active
+SPC006,2026-05-26 10:00:00,USER006,Cancha Futbol,team_work,active
+SPC007,2026-05-27 17:41:00,USER007,Cancha Tocho,event_attendance,completed
+SPC008,2026-05-28 11:48:00,USER008,Salon D101,practice,completed
+SPC009,2026-05-29 13:41:00,USER009,Salon D102,study_session,active
+SPC010,2026-05-30 11:34:00,USER010,Salon D103,study_session,active
+SPC011,2026-05-31 17:53:00,USER011,Lab Sistemas 1,meeting,active
+SPC012,2026-06-01 17:50:00,USER012,Lab Sistemas 2,event_attendance,active
+SPC013,2026-06-02 13:02:00,USER013,Foro Cultural,study_session,completed
+SPC014,2026-06-03 09:21:00,USER014,Terraza Norte,practice,completed
+SPC015,2026-06-04 18:08:00,USER015,Biblioteca Sala A,team_work,completed
+SPC016,2026-06-05 13:12:00,USER016,Biblioteca Sala B,study_session,completed
+SPC017,2026-06-06 10:46:00,USER017,Maker Space,event_attendance,completed
+SPC018,2026-06-07 10:00:00,USER018,Sala Consejo,practice,completed
+SPC019,2026-06-08 11:11:00,USER019,Auditorio C,team_work,completed
+SPC020,2026-05-10 17:32:00,USER020,Cancha Basquet,practice,active
+SPC021,2026-05-11 17:42:00,USER021,Salon G201,study_session,active
+SPC022,2026-05-12 10:30:00,USER022,Salon G202,practice,active
+SPC023,2026-05-13 08:16:00,USER023,Sala Innovacion,event_attendance,active
+SPC024,2026-05-14 18:48:00,USER024,Huerto Campus,practice,completed
+SPC025,2026-05-15 13:37:00,USER025,Plaza Central,team_work,active
+SPC001,2026-05-16 13:41:00,USER026,Auditorio A,practice,active
+SPC002,2026-05-17 08:42:00,USER027,Auditorio B,study_session,completed
+SPC003,2026-05-18 13:10:00,USER028,Sala Estudio 1,event_attendance,completed
+SPC004,2026-05-19 09:40:00,USER029,Sala Estudio 2,practice,completed
+SPC005,2026-05-20 11:14:00,USER030,Sala Estudio 3,meeting,completed
+SPC006,2026-05-21 10:29:00,USER031,Cancha Futbol,team_work,completed
+SPC007,2026-05-22 17:44:00,USER032,Cancha Tocho,team_work,completed
+SPC008,2026-05-23 11:48:00,USER033,Salon D101,meeting,active
+SPC009,2026-05-24 18:33:00,USER034,Salon D102,practice,active
+SPC010,2026-05-25 09:03:00,USER035,Salon D103,team_work,active
+SPC011,2026-05-26 10:10:00,USER036,Lab Sistemas 1,practice,completed
+SPC012,2026-05-27 09:43:00,USER037,Lab Sistemas 2,meeting,completed
+SPC013,2026-05-28 09:32:00,USER038,Foro Cultural,event_attendance,active
+SPC014,2026-05-29 18:08:00,USER039,Terraza Norte,team_work,completed
+SPC015,2026-05-30 18:36:00,USER040,Biblioteca Sala A,study_session,completed
+SPC016,2026-05-31 13:46:00,USER041,Biblioteca Sala B,study_session,completed
+SPC017,2026-06-01 13:52:00,USER042,Maker Space,study_session,active
+SPC018,2026-06-02 09:02:00,USER043,Sala Consejo,event_attendance,completed
+SPC019,2026-06-03 09:34:00,USER044,Auditorio C,study_session,active
+SPC020,2026-06-04 18:02:00,USER045,Cancha Basquet,practice,completed
+SPC021,2026-06-05 10:49:00,USER046,Salon G201,meeting,completed
+SPC022,2026-06-06 15:24:00,USER047,Salon G202,event_attendance,completed
+SPC023,2026-06-07 17:05:00,USER048,Sala Innovacion,team_work,active
+SPC024,2026-06-08 15:07:00,USER049,Huerto Campus,meeting,completed
+SPC025,2026-05-10 10:46:00,USER050,Plaza Central,meeting,active
+SPC001,2026-05-11 08:19:00,USER051,Auditorio A,event_attendance,completed
+SPC002,2026-05-12 17:52:00,USER052,Auditorio B,meeting,active
+SPC003,2026-05-13 18:22:00,USER053,Sala Estudio 1,meeting,completed
+SPC004,2026-05-14 11:46:00,USER054,Sala Estudio 2,study_session,active
+SPC005,2026-05-15 17:39:00,USER055,Sala Estudio 3,study_session,active
+SPC006,2026-05-16 11:04:00,USER056,Cancha Futbol,study_session,active
+SPC007,2026-05-17 18:38:00,USER057,Cancha Tocho,study_session,active
+SPC008,2026-05-18 08:25:00,USER058,Salon D101,event_attendance,active
+SPC009,2026-05-19 11:48:00,USER059,Salon D102,study_session,active
+SPC010,2026-05-20 13:14:00,USER060,Salon D103,team_work,completed
+SPC011,2026-05-21 15:15:00,USER061,Lab Sistemas 1,practice,active
+SPC012,2026-05-22 11:26:00,USER062,Lab Sistemas 2,practice,completed
+SPC013,2026-05-23 08:35:00,USER063,Foro Cultural,team_work,active
+SPC014,2026-05-24 17:35:00,USER064,Terraza Norte,event_attendance,active
+SPC015,2026-05-25 15:41:00,USER065,Biblioteca Sala A,event_attendance,completed
+SPC016,2026-05-26 17:26:00,USER066,Biblioteca Sala B,meeting,completed
+SPC017,2026-05-27 17:11:00,USER067,Maker Space,team_work,completed
+SPC018,2026-05-28 11:54:00,USER068,Sala Consejo,meeting,completed
+SPC019,2026-05-29 10:51:00,USER069,Auditorio C,event_attendance,active
+SPC020,2026-05-30 17:26:00,USER070,Cancha Basquet,team_work,active
+SPC021,2026-05-31 17:15:00,USER071,Salon G201,practice,active
+SPC022,2026-06-01 15:41:00,USER072,Salon G202,study_session,completed
+SPC023,2026-06-02 15:05:00,USER073,Sala Innovacion,team_work,active
+SPC024,2026-06-03 08:17:00,USER074,Huerto Campus,event_attendance,active
+SPC025,2026-06-04 09:12:00,USER075,Plaza Central,team_work,active
+SPC001,2026-06-05 18:13:00,USER076,Auditorio A,practice,completed
+SPC002,2026-06-06 08:13:00,USER077,Auditorio B,meeting,active
+SPC003,2026-06-07 18:15:00,USER078,Sala Estudio 1,team_work,active
+SPC004,2026-06-08 17:15:00,USER079,Sala Estudio 2,team_work,completed
+SPC005,2026-05-10 13:24:00,USER080,Sala Estudio 3,event_attendance,completed
+SPC006,2026-05-11 13:16:00,USER081,Cancha Futbol,practice,completed
+SPC007,2026-05-12 18:06:00,USER082,Cancha Tocho,event_attendance,completed
+SPC008,2026-05-13 11:23:00,USER083,Salon D101,practice,completed
+SPC009,2026-05-14 08:36:00,USER084,Salon D102,meeting,active
+SPC010,2026-05-15 08:16:00,USER085,Salon D103,team_work,completed
+SPC011,2026-05-16 13:09:00,USER086,Lab Sistemas 1,meeting,completed
+SPC012,2026-05-17 11:24:00,USER087,Lab Sistemas 2,team_work,active
+SPC013,2026-05-18 18:35:00,USER088,Foro Cultural,practice,completed
+SPC014,2026-05-19 18:46:00,USER089,Terraza Norte,event_attendance,completed
+SPC015,2026-05-20 10:46:00,USER090,Biblioteca Sala A,practice,active
+SPC016,2026-05-21 10:46:00,USER091,Biblioteca Sala B,team_work,completed
+SPC017,2026-05-22 10:34:00,USER092,Maker Space,study_session,active
+SPC018,2026-05-23 09:52:00,USER093,Sala Consejo,study_session,active
+SPC019,2026-05-24 17:08:00,USER094,Auditorio C,meeting,active
+SPC020,2026-05-25 10:00:00,USER095,Cancha Basquet,meeting,completed
+SPC021,2026-05-26 15:03:00,USER096,Salon G201,team_work,completed
+SPC022,2026-05-27 18:01:00,USER097,Salon G202,study_session,completed
+SPC023,2026-05-28 08:01:00,USER098,Sala Innovacion,team_work,completed
+SPC024,2026-05-29 13:01:00,USER099,Huerto Campus,team_work,completed
+SPC025,2026-05-30 10:06:00,USER100,Plaza Central,study_session,active
+SPC001,2026-05-31 11:12:00,USER001,Auditorio A,team_work,completed
+SPC002,2026-06-01 15:17:00,USER002,Auditorio B,event_attendance,active
+SPC003,2026-06-02 15:25:00,USER003,Sala Estudio 1,event_attendance,active
+SPC004,2026-06-03 11:19:00,USER004,Sala Estudio 2,study_session,active
+SPC005,2026-06-04 09:25:00,USER005,Sala Estudio 3,event_attendance,completed
+SPC006,2026-06-05 18:03:00,USER006,Cancha Futbol,study_session,active
+SPC007,2026-06-06 09:31:00,USER007,Cancha Tocho,event_attendance,completed
+SPC008,2026-06-07 09:33:00,USER008,Salon D101,study_session,active
+SPC009,2026-06-08 11:55:00,USER009,Salon D102,team_work,completed
+SPC010,2026-05-10 13:02:00,USER010,Salon D103,study_session,completed
+SPC011,2026-05-11 08:11:00,USER011,Lab Sistemas 1,practice,active
+SPC012,2026-05-12 11:37:00,USER012,Lab Sistemas 2,meeting,completed
+SPC013,2026-05-13 09:19:00,USER013,Foro Cultural,meeting,active
+SPC014,2026-05-14 17:43:00,USER014,Terraza Norte,team_work,completed
+SPC015,2026-05-15 17:48:00,USER015,Biblioteca Sala A,meeting,active
+SPC016,2026-05-16 15:03:00,USER016,Biblioteca Sala B,study_session,completed
+SPC017,2026-05-17 11:53:00,USER017,Maker Space,study_session,completed
+SPC018,2026-05-18 17:49:00,USER018,Sala Consejo,practice,active
+SPC019,2026-05-19 13:50:00,USER019,Auditorio C,event_attendance,completed
+SPC020,2026-05-20 11:22:00,USER020,Cancha Basquet,team_work,completed
+SPC021,2026-05-21 17:11:00,USER021,Salon G201,team_work,completed
+SPC022,2026-05-22 09:49:00,USER022,Salon G202,team_work,completed
+SPC023,2026-05-23 11:45:00,USER023,Sala Innovacion,study_session,active
+SPC024,2026-05-24 13:09:00,USER024,Huerto Campus,event_attendance,active
+SPC025,2026-05-25 17:20:00,USER025,Plaza Central,practice,active
+SPC001,2026-05-26 09:00:00,USER026,Auditorio A,practice,completed
+SPC002,2026-05-27 15:48:00,USER027,Auditorio B,practice,active
+SPC003,2026-05-28 10:05:00,USER028,Sala Estudio 1,meeting,completed
+SPC004,2026-05-29 18:35:00,USER029,Sala Estudio 2,team_work,completed
+SPC005,2026-05-30 09:01:00,USER030,Sala Estudio 3,study_session,completed
+SPC006,2026-05-31 09:38:00,USER031,Cancha Futbol,team_work,completed
+SPC007,2026-06-01 17:00:00,USER032,Cancha Tocho,practice,completed
+SPC008,2026-06-02 17:49:00,USER033,Salon D101,study_session,active
+SPC009,2026-06-03 10:43:00,USER034,Salon D102,event_attendance,active
+SPC010,2026-06-04 10:17:00,USER035,Salon D103,practice,completed
+SPC011,2026-06-05 18:09:00,USER036,Lab Sistemas 1,study_session,active
+SPC012,2026-06-06 17:17:00,USER037,Lab Sistemas 2,event_attendance,completed
+SPC013,2026-06-07 18:50:00,USER038,Foro Cultural,study_session,completed
+SPC014,2026-06-08 13:15:00,USER039,Terraza Norte,event_attendance,active
+SPC015,2026-05-10 18:06:00,USER040,Biblioteca Sala A,meeting,completed
+SPC016,2026-05-11 08:25:00,USER041,Biblioteca Sala B,practice,completed
+SPC017,2026-05-12 15:28:00,USER042,Maker Space,practice,completed
+SPC018,2026-05-13 10:19:00,USER043,Sala Consejo,practice,active
+SPC019,2026-05-14 18:20:00,USER044,Auditorio C,meeting,completed
+SPC020,2026-05-15 15:18:00,USER045,Cancha Basquet,event_attendance,active
+SPC021,2026-05-16 15:24:00,USER046,Salon G201,practice,completed
+SPC022,2026-05-17 15:07:00,USER047,Salon G202,team_work,active
+SPC023,2026-05-18 10:43:00,USER048,Sala Innovacion,team_work,active
+SPC024,2026-05-19 18:45:00,USER049,Huerto Campus,meeting,completed
+SPC025,2026-05-20 13:53:00,USER050,Plaza Central,study_session,completed

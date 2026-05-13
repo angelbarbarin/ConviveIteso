@@ -1,4 +1,201 @@
 reservation_id,user_id,user_name,space_id,space_name,space_type,date,time,status,reservation_type,reservation_timestamp,cancellation_timestamp,cancellation_reason,related_event_id
-RES001,USER001,Usuario001,SPC003,Sala Estudio 1,study_room,2026-05-10,10:00,confirmed,study,2026-05-01 10:20:00,,,
-RES002,USER002,Usuario002,SPC018,Sala Consejo,meeting_room,2026-05-10,12:00,cancelled,meeting,2026-05-01 12:00:00,2026-05-02 09:00:00,Cambio de horario,
-RES003,USER003,Usuario003,SPC007,Cancha Tocho,sports,2026-05-11,18:00,confirmed,sports,2026-05-03 14:00:00,,,EVT002
+RES001,USER001,Usuario001,SPC001,Auditorio A,auditorio,2026-05-11,11:00,confirmed,sports,2026-05-08 00:00:00,,,
+RES002,USER002,Usuario002,SPC002,Auditorio B,auditorio,2026-05-12,11:00,cancelled,meeting,2026-05-10 00:00:00,2026-05-10 09:00:00,Espacio ya no requerido,
+RES003,USER003,Usuario003,SPC003,Sala Estudio 1,study_room,2026-05-13,17:00,confirmed,meeting,2026-05-10 00:00:00,,,
+RES004,USER004,Usuario004,SPC004,Sala Estudio 2,study_room,2026-05-14,10:00,confirmed,sports,2026-05-07 00:00:00,,,
+RES005,USER005,Usuario005,SPC005,Sala Estudio 3,study_room,2026-05-15,09:00,confirmed,meeting,2026-05-12 00:00:00,,,
+RES006,USER006,Usuario006,SPC006,Cancha Futbol,sports,2026-05-16,15:00,confirmed,meeting,2026-05-15 00:00:00,,,
+RES007,USER007,Usuario007,SPC007,Cancha Tocho,sports,2026-05-17,13:00,confirmed,meeting,2026-05-10 00:00:00,,,
+RES008,USER008,Usuario008,SPC008,Salon D101,classroom,2026-05-18,13:00,confirmed,study,2026-05-14 00:00:00,,,
+RES009,USER009,Usuario009,SPC009,Salon D102,classroom,2026-05-19,11:00,confirmed,sports,2026-05-18 00:00:00,,,
+RES010,USER010,Usuario010,SPC010,Salon D103,classroom,2026-05-20,13:00,confirmed,study,2026-05-16 00:00:00,,,
+RES011,USER011,Usuario011,SPC011,Lab Sistemas 1,laboratory,2026-05-21,15:00,confirmed,study,2026-05-14 00:00:00,,,
+RES012,USER012,Usuario012,SPC012,Lab Sistemas 2,laboratory,2026-05-22,15:00,confirmed,study,2026-05-21 00:00:00,,,
+RES013,USER013,Usuario013,SPC013,Foro Cultural,forum,2026-05-23,13:00,confirmed,meeting,2026-05-19 00:00:00,,,
+RES014,USER014,Usuario014,SPC014,Terraza Norte,open_space,2026-05-24,11:00,confirmed,sports,2026-05-20 00:00:00,,,
+RES015,USER015,Usuario015,SPC015,Biblioteca Sala A,study_room,2026-05-25,09:00,confirmed,study,2026-05-19 00:00:00,,,
+RES016,USER016,Usuario016,SPC016,Biblioteca Sala B,study_room,2026-05-26,10:00,confirmed,meeting,2026-05-25 00:00:00,,,
+RES017,USER017,Usuario017,SPC017,Maker Space,laboratory,2026-05-27,09:00,confirmed,meeting,2026-05-25 00:00:00,,,
+RES018,USER018,Usuario018,SPC018,Sala Consejo,meeting_room,2026-05-28,11:00,confirmed,event,2026-05-24 00:00:00,,,EVT027
+RES019,USER019,Usuario019,SPC019,Auditorio C,auditorio,2026-05-29,17:00,confirmed,meeting,2026-05-26 00:00:00,,,
+RES020,USER020,Usuario020,SPC020,Cancha Basquet,sports,2026-05-30,18:00,confirmed,study,2026-05-27 00:00:00,,,
+RES021,USER021,Usuario021,SPC021,Salon G201,classroom,2026-05-31,10:00,confirmed,meeting,2026-05-26 00:00:00,,,
+RES022,USER022,Usuario022,SPC022,Salon G202,classroom,2026-06-01,09:00,confirmed,sports,2026-05-31 00:00:00,,,
+RES023,USER023,Usuario023,SPC023,Sala Innovacion,meeting_room,2026-06-02,15:00,confirmed,sports,2026-05-26 00:00:00,,,
+RES024,USER024,Usuario024,SPC024,Huerto Campus,outdoor,2026-06-03,11:00,cancelled,event,2026-05-28 00:00:00,2026-05-29 03:00:00,Evento cancelado,EVT019
+RES025,USER025,Usuario025,SPC025,Plaza Central,open_space,2026-06-04,09:00,confirmed,event,2026-05-30 00:00:00,,,EVT033
+RES026,USER026,Usuario026,SPC001,Auditorio A,auditorio,2026-06-05,09:00,confirmed,sports,2026-06-04 00:00:00,,,
+RES027,USER027,Usuario027,SPC002,Auditorio B,auditorio,2026-06-06,18:00,confirmed,study,2026-05-31 00:00:00,,,
+RES028,USER028,Usuario028,SPC003,Sala Estudio 1,study_room,2026-06-07,13:00,confirmed,study,2026-06-05 00:00:00,,,
+RES029,USER029,Usuario029,SPC004,Sala Estudio 2,study_room,2026-06-08,15:00,confirmed,event,2026-06-06 00:00:00,,,EVT034
+RES030,USER030,Usuario030,SPC005,Sala Estudio 3,study_room,2026-05-10,11:00,confirmed,event,2026-05-06 00:00:00,,,EVT028
+RES031,USER031,Usuario031,SPC006,Cancha Futbol,sports,2026-05-11,18:00,confirmed,sports,2026-05-10 00:00:00,,,
+RES032,USER032,Usuario032,SPC007,Cancha Tocho,sports,2026-05-12,11:00,confirmed,sports,2026-05-08 00:00:00,,,
+RES033,USER033,Usuario033,SPC008,Salon D101,classroom,2026-05-13,11:00,confirmed,study,2026-05-10 00:00:00,,,
+RES034,USER034,Usuario034,SPC009,Salon D102,classroom,2026-05-14,18:00,confirmed,study,2026-05-10 00:00:00,,,
+RES035,USER035,Usuario035,SPC010,Salon D103,classroom,2026-05-15,13:00,confirmed,study,2026-05-10 00:00:00,,,
+RES036,USER036,Usuario036,SPC011,Lab Sistemas 1,laboratory,2026-05-16,15:00,confirmed,study,2026-05-13 00:00:00,,,
+RES037,USER037,Usuario037,SPC012,Lab Sistemas 2,laboratory,2026-05-17,11:00,confirmed,event,2026-05-15 00:00:00,,,EVT032
+RES038,USER038,Usuario038,SPC013,Foro Cultural,forum,2026-05-18,17:00,confirmed,meeting,2026-05-14 00:00:00,,,
+RES039,USER039,Usuario039,SPC014,Terraza Norte,open_space,2026-05-19,15:00,cancelled,study,2026-05-13 00:00:00,2026-05-13 17:00:00,Espacio ya no requerido,
+RES040,USER040,Usuario040,SPC015,Biblioteca Sala A,study_room,2026-05-20,10:00,confirmed,study,2026-05-19 00:00:00,,,
+RES041,USER041,Usuario041,SPC016,Biblioteca Sala B,study_room,2026-05-21,18:00,confirmed,event,2026-05-15 00:00:00,,,EVT008
+RES042,USER042,Usuario042,SPC017,Maker Space,laboratory,2026-05-22,15:00,confirmed,event,2026-05-19 00:00:00,,,EVT010
+RES043,USER043,Usuario043,SPC018,Sala Consejo,meeting_room,2026-05-23,10:00,confirmed,event,2026-05-19 00:00:00,,,EVT018
+RES044,USER044,Usuario044,SPC019,Auditorio C,auditorio,2026-05-24,15:00,confirmed,meeting,2026-05-19 00:00:00,,,
+RES045,USER045,Usuario045,SPC020,Cancha Basquet,sports,2026-05-25,18:00,confirmed,study,2026-05-18 00:00:00,,,
+RES046,USER046,Usuario046,SPC021,Salon G201,classroom,2026-05-26,11:00,confirmed,sports,2026-05-21 00:00:00,,,
+RES047,USER047,Usuario047,SPC022,Salon G202,classroom,2026-05-27,15:00,confirmed,sports,2026-05-20 00:00:00,,,
+RES048,USER048,Usuario048,SPC023,Sala Innovacion,meeting_room,2026-05-28,15:00,confirmed,event,2026-05-24 00:00:00,,,EVT038
+RES049,USER049,Usuario049,SPC024,Huerto Campus,outdoor,2026-05-29,15:00,confirmed,sports,2026-05-22 00:00:00,,,
+RES050,USER050,Usuario050,SPC025,Plaza Central,open_space,2026-05-30,10:00,confirmed,event,2026-05-23 00:00:00,,,EVT025
+RES051,USER051,Usuario051,SPC001,Auditorio A,auditorio,2026-05-31,13:00,confirmed,event,2026-05-24 00:00:00,,,EVT016
+RES052,USER052,Usuario052,SPC002,Auditorio B,auditorio,2026-06-01,18:00,confirmed,sports,2026-05-26 00:00:00,,,
+RES053,USER053,Usuario053,SPC003,Sala Estudio 1,study_room,2026-06-02,18:00,confirmed,event,2026-05-26 00:00:00,,,EVT025
+RES054,USER054,Usuario054,SPC004,Sala Estudio 2,study_room,2026-06-03,15:00,confirmed,event,2026-06-01 00:00:00,,,EVT010
+RES055,USER055,Usuario055,SPC005,Sala Estudio 3,study_room,2026-06-04,18:00,confirmed,sports,2026-05-28 00:00:00,,,
+RES056,USER056,Usuario056,SPC006,Cancha Futbol,sports,2026-06-05,09:00,confirmed,study,2026-06-01 00:00:00,,,
+RES057,USER057,Usuario057,SPC007,Cancha Tocho,sports,2026-06-06,09:00,confirmed,event,2026-06-04 00:00:00,,,EVT010
+RES058,USER058,Usuario058,SPC008,Salon D101,classroom,2026-06-07,13:00,confirmed,sports,2026-06-01 00:00:00,,,
+RES059,USER059,Usuario059,SPC009,Salon D102,classroom,2026-06-08,15:00,confirmed,sports,2026-06-01 00:00:00,,,
+RES060,USER060,Usuario060,SPC010,Salon D103,classroom,2026-05-10,13:00,confirmed,sports,2026-05-03 00:00:00,,,
+RES061,USER061,Usuario061,SPC011,Lab Sistemas 1,laboratory,2026-05-11,17:00,confirmed,study,2026-05-09 00:00:00,,,
+RES062,USER062,Usuario062,SPC012,Lab Sistemas 2,laboratory,2026-05-12,09:00,confirmed,meeting,2026-05-08 00:00:00,,,
+RES063,USER063,Usuario063,SPC013,Foro Cultural,forum,2026-05-13,09:00,confirmed,event,2026-05-10 00:00:00,,,EVT007
+RES064,USER064,Usuario064,SPC014,Terraza Norte,open_space,2026-05-14,11:00,confirmed,sports,2026-05-11 00:00:00,,,
+RES065,USER065,Usuario065,SPC015,Biblioteca Sala A,study_room,2026-05-15,13:00,cancelled,event,2026-05-10 00:00:00,2026-05-10 13:00:00,Espacio ya no requerido,EVT024
+RES066,USER066,Profesor066,SPC016,Biblioteca Sala B,study_room,2026-05-16,15:00,confirmed,study,2026-05-12 00:00:00,,,
+RES067,USER067,Profesor067,SPC017,Maker Space,laboratory,2026-05-17,10:00,confirmed,event,2026-05-15 00:00:00,,,EVT016
+RES068,USER068,Profesor068,SPC018,Sala Consejo,meeting_room,2026-05-18,09:00,confirmed,sports,2026-05-12 00:00:00,,,
+RES069,USER069,Profesor069,SPC019,Auditorio C,auditorio,2026-05-19,09:00,confirmed,sports,2026-05-17 00:00:00,,,
+RES070,USER070,Profesor070,SPC020,Cancha Basquet,sports,2026-05-20,17:00,confirmed,sports,2026-05-17 00:00:00,,,
+RES071,USER071,Profesor071,SPC021,Salon G201,classroom,2026-05-21,10:00,confirmed,sports,2026-05-18 00:00:00,,,
+RES072,USER072,Profesor072,SPC022,Salon G202,classroom,2026-05-22,15:00,cancelled,event,2026-05-18 00:00:00,2026-05-19 00:00:00,Evento cancelado,EVT025
+RES073,USER073,Profesor073,SPC023,Sala Innovacion,meeting_room,2026-05-23,13:00,confirmed,study,2026-05-17 00:00:00,,,
+RES074,USER074,Profesor074,SPC024,Huerto Campus,outdoor,2026-05-24,18:00,confirmed,study,2026-05-18 00:00:00,,,
+RES075,USER075,Profesor075,SPC025,Plaza Central,open_space,2026-05-25,18:00,confirmed,event,2026-05-22 00:00:00,,,EVT004
+RES076,USER076,Profesor076,SPC001,Auditorio A,auditorio,2026-05-26,15:00,confirmed,sports,2026-05-24 00:00:00,,,
+RES077,USER077,Profesor077,SPC002,Auditorio B,auditorio,2026-05-27,17:00,confirmed,meeting,2026-05-21 00:00:00,,,
+RES078,USER078,Profesor078,SPC003,Sala Estudio 1,study_room,2026-05-28,15:00,confirmed,sports,2026-05-27 00:00:00,,,
+RES079,USER079,Profesor079,SPC004,Sala Estudio 2,study_room,2026-05-29,11:00,cancelled,meeting,2026-05-26 00:00:00,2026-05-27 04:00:00,Espacio ya no requerido,
+RES080,USER080,Profesor080,SPC005,Sala Estudio 3,study_room,2026-05-30,15:00,confirmed,meeting,2026-05-27 00:00:00,,,
+RES081,USER081,Admin081,SPC006,Cancha Futbol,sports,2026-05-31,18:00,confirmed,sports,2026-05-28 00:00:00,,,
+RES082,USER082,Admin082,SPC007,Cancha Tocho,sports,2026-06-01,18:00,confirmed,sports,2026-05-29 00:00:00,,,
+RES083,USER083,Admin083,SPC008,Salon D101,classroom,2026-06-02,18:00,confirmed,event,2026-05-31 00:00:00,,,EVT008
+RES084,USER084,Admin084,SPC009,Salon D102,classroom,2026-06-03,15:00,confirmed,event,2026-05-27 00:00:00,,,EVT015
+RES085,USER085,Admin085,SPC010,Salon D103,classroom,2026-06-04,11:00,confirmed,study,2026-06-03 00:00:00,,,
+RES086,USER086,Admin086,SPC011,Lab Sistemas 1,laboratory,2026-06-05,17:00,confirmed,study,2026-05-30 00:00:00,,,
+RES087,USER087,Admin087,SPC012,Lab Sistemas 2,laboratory,2026-06-06,09:00,confirmed,event,2026-06-03 00:00:00,,,EVT017
+RES088,USER088,Admin088,SPC013,Foro Cultural,forum,2026-06-07,11:00,cancelled,event,2026-06-02 00:00:00,2026-06-02 16:00:00,Cambio de horario,EVT015
+RES089,USER089,Admin089,SPC014,Terraza Norte,open_space,2026-06-08,10:00,confirmed,sports,2026-06-07 00:00:00,,,
+RES090,USER090,Admin090,SPC015,Biblioteca Sala A,study_room,2026-05-10,09:00,confirmed,study,2026-05-06 00:00:00,,,
+RES091,USER091,Invitado091,SPC016,Biblioteca Sala B,study_room,2026-05-11,13:00,confirmed,meeting,2026-05-09 00:00:00,,,
+RES092,USER092,Invitado092,SPC017,Maker Space,laboratory,2026-05-12,17:00,confirmed,sports,2026-05-06 00:00:00,,,
+RES093,USER093,Invitado093,SPC018,Sala Consejo,meeting_room,2026-05-13,10:00,confirmed,event,2026-05-07 00:00:00,,,EVT035
+RES094,USER094,Invitado094,SPC019,Auditorio C,auditorio,2026-05-14,13:00,confirmed,study,2026-05-09 00:00:00,,,
+RES095,USER095,Invitado095,SPC020,Cancha Basquet,sports,2026-05-15,13:00,confirmed,study,2026-05-13 00:00:00,,,
+RES096,USER096,Invitado096,SPC021,Salon G201,classroom,2026-05-16,17:00,confirmed,meeting,2026-05-15 00:00:00,,,
+RES097,USER097,Invitado097,SPC022,Salon G202,classroom,2026-05-17,10:00,cancelled,sports,2026-05-14 00:00:00,2026-05-14 09:00:00,Conflicto de agenda,
+RES098,USER098,Invitado098,SPC023,Sala Innovacion,meeting_room,2026-05-18,09:00,confirmed,meeting,2026-05-13 00:00:00,,,
+RES099,USER099,Invitado099,SPC024,Huerto Campus,outdoor,2026-05-19,18:00,confirmed,sports,2026-05-17 00:00:00,,,
+RES100,USER100,Invitado100,SPC025,Plaza Central,open_space,2026-05-20,15:00,cancelled,meeting,2026-05-13 00:00:00,2026-05-13 15:00:00,Espacio ya no requerido,
+RES101,USER001,Usuario001,SPC001,Auditorio A,auditorio,2026-05-21,15:00,confirmed,sports,2026-05-14 00:00:00,,,
+RES102,USER002,Usuario002,SPC002,Auditorio B,auditorio,2026-05-22,10:00,confirmed,sports,2026-05-20 00:00:00,,,
+RES103,USER003,Usuario003,SPC003,Sala Estudio 1,study_room,2026-05-23,17:00,confirmed,sports,2026-05-22 00:00:00,,,
+RES104,USER004,Usuario004,SPC004,Sala Estudio 2,study_room,2026-05-24,18:00,cancelled,meeting,2026-05-17 00:00:00,2026-05-17 17:00:00,Evento cancelado,
+RES105,USER005,Usuario005,SPC005,Sala Estudio 3,study_room,2026-05-25,17:00,confirmed,meeting,2026-05-23 00:00:00,,,
+RES106,USER006,Usuario006,SPC006,Cancha Futbol,sports,2026-05-26,13:00,confirmed,study,2026-05-22 00:00:00,,,
+RES107,USER007,Usuario007,SPC007,Cancha Tocho,sports,2026-05-27,15:00,confirmed,study,2026-05-25 00:00:00,,,
+RES108,USER008,Usuario008,SPC008,Salon D101,classroom,2026-05-28,09:00,confirmed,sports,2026-05-27 00:00:00,,,
+RES109,USER009,Usuario009,SPC009,Salon D102,classroom,2026-05-29,13:00,confirmed,event,2026-05-28 00:00:00,,,EVT031
+RES110,USER010,Usuario010,SPC010,Salon D103,classroom,2026-05-30,15:00,confirmed,study,2026-05-27 00:00:00,,,
+RES111,USER011,Usuario011,SPC011,Lab Sistemas 1,laboratory,2026-05-31,17:00,cancelled,study,2026-05-26 00:00:00,2026-05-26 22:00:00,Conflicto de agenda,
+RES112,USER012,Usuario012,SPC012,Lab Sistemas 2,laboratory,2026-06-01,13:00,confirmed,sports,2026-05-27 00:00:00,,,
+RES113,USER013,Usuario013,SPC013,Foro Cultural,forum,2026-06-02,18:00,confirmed,study,2026-05-27 00:00:00,,,
+RES114,USER014,Usuario014,SPC014,Terraza Norte,open_space,2026-06-03,13:00,confirmed,meeting,2026-06-01 00:00:00,,,
+RES115,USER015,Usuario015,SPC015,Biblioteca Sala A,study_room,2026-06-04,09:00,confirmed,event,2026-05-29 00:00:00,,,EVT022
+RES116,USER016,Usuario016,SPC016,Biblioteca Sala B,study_room,2026-06-05,11:00,confirmed,event,2026-06-02 00:00:00,,,EVT021
+RES117,USER017,Usuario017,SPC017,Maker Space,laboratory,2026-06-06,09:00,cancelled,event,2026-05-30 00:00:00,2026-05-30 07:00:00,Conflicto de agenda,EVT010
+RES118,USER018,Usuario018,SPC018,Sala Consejo,meeting_room,2026-06-07,09:00,confirmed,sports,2026-06-02 00:00:00,,,
+RES119,USER019,Usuario019,SPC019,Auditorio C,auditorio,2026-06-08,11:00,confirmed,sports,2026-06-04 00:00:00,,,
+RES120,USER020,Usuario020,SPC020,Cancha Basquet,sports,2026-05-10,11:00,confirmed,study,2026-05-05 00:00:00,,,
+RES121,USER021,Usuario021,SPC021,Salon G201,classroom,2026-05-11,10:00,confirmed,study,2026-05-09 00:00:00,,,
+RES122,USER022,Usuario022,SPC022,Salon G202,classroom,2026-05-12,18:00,confirmed,meeting,2026-05-09 00:00:00,,,
+RES123,USER023,Usuario023,SPC023,Sala Innovacion,meeting_room,2026-05-13,15:00,cancelled,sports,2026-05-10 00:00:00,2026-05-10 16:00:00,Conflicto de agenda,
+RES124,USER024,Usuario024,SPC024,Huerto Campus,outdoor,2026-05-14,18:00,confirmed,study,2026-05-08 00:00:00,,,
+RES125,USER025,Usuario025,SPC025,Plaza Central,open_space,2026-05-15,18:00,confirmed,study,2026-05-09 00:00:00,,,
+RES126,USER026,Usuario026,SPC001,Auditorio A,auditorio,2026-05-16,18:00,confirmed,sports,2026-05-14 00:00:00,,,
+RES127,USER027,Usuario027,SPC002,Auditorio B,auditorio,2026-05-17,17:00,cancelled,event,2026-05-11 00:00:00,2026-05-11 03:00:00,Cambio de horario,EVT010
+RES128,USER028,Usuario028,SPC003,Sala Estudio 1,study_room,2026-05-18,11:00,confirmed,meeting,2026-05-14 00:00:00,,,
+RES129,USER029,Usuario029,SPC004,Sala Estudio 2,study_room,2026-05-19,18:00,confirmed,sports,2026-05-16 00:00:00,,,
+RES130,USER030,Usuario030,SPC005,Sala Estudio 3,study_room,2026-05-20,10:00,confirmed,study,2026-05-18 00:00:00,,,
+RES131,USER031,Usuario031,SPC006,Cancha Futbol,sports,2026-05-21,13:00,confirmed,study,2026-05-18 00:00:00,,,
+RES132,USER032,Usuario032,SPC007,Cancha Tocho,sports,2026-05-22,11:00,confirmed,event,2026-05-18 00:00:00,,,EVT028
+RES133,USER033,Usuario033,SPC008,Salon D101,classroom,2026-05-23,11:00,confirmed,study,2026-05-22 00:00:00,,,
+RES134,USER034,Usuario034,SPC009,Salon D102,classroom,2026-05-24,09:00,confirmed,event,2026-05-21 00:00:00,,,EVT038
+RES135,USER035,Usuario035,SPC010,Salon D103,classroom,2026-05-25,09:00,confirmed,event,2026-05-24 00:00:00,,,EVT015
+RES136,USER036,Usuario036,SPC011,Lab Sistemas 1,laboratory,2026-05-26,10:00,confirmed,sports,2026-05-19 00:00:00,,,
+RES137,USER037,Usuario037,SPC012,Lab Sistemas 2,laboratory,2026-05-27,13:00,confirmed,sports,2026-05-26 00:00:00,,,
+RES138,USER038,Usuario038,SPC013,Foro Cultural,forum,2026-05-28,17:00,cancelled,meeting,2026-05-23 00:00:00,2026-05-23 16:00:00,Evento cancelado,
+RES139,USER039,Usuario039,SPC014,Terraza Norte,open_space,2026-05-29,13:00,confirmed,event,2026-05-28 00:00:00,,,EVT005
+RES140,USER040,Usuario040,SPC015,Biblioteca Sala A,study_room,2026-05-30,11:00,confirmed,event,2026-05-23 00:00:00,,,EVT002
+RES141,USER041,Usuario041,SPC016,Biblioteca Sala B,study_room,2026-05-31,17:00,confirmed,event,2026-05-25 00:00:00,,,EVT037
+RES142,USER042,Usuario042,SPC017,Maker Space,laboratory,2026-06-01,11:00,cancelled,sports,2026-05-31 00:00:00,2026-05-31 12:00:00,Conflicto de agenda,
+RES143,USER043,Usuario043,SPC018,Sala Consejo,meeting_room,2026-06-02,10:00,confirmed,study,2026-06-01 00:00:00,,,
+RES144,USER044,Usuario044,SPC019,Auditorio C,auditorio,2026-06-03,18:00,confirmed,event,2026-05-30 00:00:00,,,EVT028
+RES145,USER045,Usuario045,SPC020,Cancha Basquet,sports,2026-06-04,10:00,confirmed,sports,2026-05-28 00:00:00,,,
+RES146,USER046,Usuario046,SPC021,Salon G201,classroom,2026-06-05,18:00,confirmed,study,2026-06-03 00:00:00,,,
+RES147,USER047,Usuario047,SPC022,Salon G202,classroom,2026-06-06,17:00,confirmed,sports,2026-05-30 00:00:00,,,
+RES148,USER048,Usuario048,SPC023,Sala Innovacion,meeting_room,2026-06-07,10:00,cancelled,meeting,2026-06-04 00:00:00,2026-06-04 13:00:00,Espacio ya no requerido,
+RES149,USER049,Usuario049,SPC024,Huerto Campus,outdoor,2026-06-08,13:00,confirmed,meeting,2026-06-02 00:00:00,,,
+RES150,USER050,Usuario050,SPC025,Plaza Central,open_space,2026-05-10,17:00,confirmed,event,2026-05-05 00:00:00,,,EVT030
+RES151,USER051,Usuario051,SPC001,Auditorio A,auditorio,2026-05-11,11:00,confirmed,sports,2026-05-05 00:00:00,,,
+RES152,USER052,Usuario052,SPC002,Auditorio B,auditorio,2026-05-12,17:00,cancelled,event,2026-05-08 00:00:00,2026-05-08 21:00:00,Evento cancelado,EVT010
+RES153,USER053,Usuario053,SPC003,Sala Estudio 1,study_room,2026-05-13,11:00,confirmed,study,2026-05-12 00:00:00,,,
+RES154,USER054,Usuario054,SPC004,Sala Estudio 2,study_room,2026-05-14,18:00,cancelled,event,2026-05-11 00:00:00,2026-05-11 20:00:00,Cambio de horario,EVT030
+RES155,USER055,Usuario055,SPC005,Sala Estudio 3,study_room,2026-05-15,18:00,confirmed,event,2026-05-10 00:00:00,,,EVT006
+RES156,USER056,Usuario056,SPC006,Cancha Futbol,sports,2026-05-16,17:00,confirmed,event,2026-05-11 00:00:00,,,EVT003
+RES157,USER057,Usuario057,SPC007,Cancha Tocho,sports,2026-05-17,10:00,confirmed,sports,2026-05-12 00:00:00,,,
+RES158,USER058,Usuario058,SPC008,Salon D101,classroom,2026-05-18,11:00,cancelled,event,2026-05-11 00:00:00,2026-05-11 07:00:00,Espacio ya no requerido,EVT004
+RES159,USER059,Usuario059,SPC009,Salon D102,classroom,2026-05-19,15:00,confirmed,meeting,2026-05-15 00:00:00,,,
+RES160,USER060,Usuario060,SPC010,Salon D103,classroom,2026-05-20,13:00,confirmed,meeting,2026-05-17 00:00:00,,,
+RES161,USER061,Usuario061,SPC011,Lab Sistemas 1,laboratory,2026-05-21,18:00,confirmed,sports,2026-05-20 00:00:00,,,
+RES162,USER062,Usuario062,SPC012,Lab Sistemas 2,laboratory,2026-05-22,17:00,confirmed,study,2026-05-17 00:00:00,,,
+RES163,USER063,Usuario063,SPC013,Foro Cultural,forum,2026-05-23,17:00,confirmed,sports,2026-05-16 00:00:00,,,
+RES164,USER064,Usuario064,SPC014,Terraza Norte,open_space,2026-05-24,17:00,confirmed,meeting,2026-05-19 00:00:00,,,
+RES165,USER065,Usuario065,SPC015,Biblioteca Sala A,study_room,2026-05-25,17:00,confirmed,sports,2026-05-19 00:00:00,,,
+RES166,USER066,Profesor066,SPC016,Biblioteca Sala B,study_room,2026-05-26,11:00,confirmed,meeting,2026-05-25 00:00:00,,,
+RES167,USER067,Profesor067,SPC017,Maker Space,laboratory,2026-05-27,18:00,confirmed,event,2026-05-24 00:00:00,,,EVT036
+RES168,USER068,Profesor068,SPC018,Sala Consejo,meeting_room,2026-05-28,15:00,confirmed,study,2026-05-24 00:00:00,,,
+RES169,USER069,Profesor069,SPC019,Auditorio C,auditorio,2026-05-29,10:00,confirmed,study,2026-05-27 00:00:00,,,
+RES170,USER070,Profesor070,SPC020,Cancha Basquet,sports,2026-05-30,10:00,confirmed,event,2026-05-28 00:00:00,,,EVT022
+RES171,USER071,Profesor071,SPC021,Salon G201,classroom,2026-05-31,15:00,confirmed,sports,2026-05-30 00:00:00,,,
+RES172,USER072,Profesor072,SPC022,Salon G202,classroom,2026-06-01,15:00,confirmed,study,2026-05-25 00:00:00,,,
+RES173,USER073,Profesor073,SPC023,Sala Innovacion,meeting_room,2026-06-02,18:00,confirmed,event,2026-05-31 00:00:00,,,EVT009
+RES174,USER074,Profesor074,SPC024,Huerto Campus,outdoor,2026-06-03,13:00,confirmed,meeting,2026-06-02 00:00:00,,,
+RES175,USER075,Profesor075,SPC025,Plaza Central,open_space,2026-06-04,11:00,confirmed,meeting,2026-05-30 00:00:00,,,
+RES176,USER076,Profesor076,SPC001,Auditorio A,auditorio,2026-06-05,18:00,confirmed,meeting,2026-06-02 00:00:00,,,
+RES177,USER077,Profesor077,SPC002,Auditorio B,auditorio,2026-06-06,13:00,confirmed,meeting,2026-06-01 00:00:00,,,
+RES178,USER078,Profesor078,SPC003,Sala Estudio 1,study_room,2026-06-07,15:00,confirmed,sports,2026-06-02 00:00:00,,,
+RES179,USER079,Profesor079,SPC004,Sala Estudio 2,study_room,2026-06-08,15:00,confirmed,meeting,2026-06-01 00:00:00,,,
+RES180,USER080,Profesor080,SPC005,Sala Estudio 3,study_room,2026-05-10,18:00,cancelled,sports,2026-05-06 00:00:00,2026-05-07 01:00:00,Cambio de horario,
+RES181,USER081,Admin081,SPC006,Cancha Futbol,sports,2026-05-11,10:00,confirmed,study,2026-05-04 00:00:00,,,
+RES182,USER082,Admin082,SPC007,Cancha Tocho,sports,2026-05-12,18:00,confirmed,event,2026-05-10 00:00:00,,,EVT018
+RES183,USER083,Admin083,SPC008,Salon D101,classroom,2026-05-13,18:00,confirmed,study,2026-05-11 00:00:00,,,
+RES184,USER084,Admin084,SPC009,Salon D102,classroom,2026-05-14,09:00,confirmed,sports,2026-05-10 00:00:00,,,
+RES185,USER085,Admin085,SPC010,Salon D103,classroom,2026-05-15,11:00,confirmed,sports,2026-05-14 00:00:00,,,
+RES186,USER086,Admin086,SPC011,Lab Sistemas 1,laboratory,2026-05-16,18:00,confirmed,study,2026-05-15 00:00:00,,,
+RES187,USER087,Admin087,SPC012,Lab Sistemas 2,laboratory,2026-05-17,18:00,cancelled,meeting,2026-05-14 00:00:00,2026-05-15 08:00:00,Espacio ya no requerido,
+RES188,USER088,Admin088,SPC013,Foro Cultural,forum,2026-05-18,09:00,confirmed,event,2026-05-17 00:00:00,,,EVT031
+RES189,USER089,Admin089,SPC014,Terraza Norte,open_space,2026-05-19,17:00,confirmed,meeting,2026-05-14 00:00:00,,,
+RES190,USER090,Admin090,SPC015,Biblioteca Sala A,study_room,2026-05-20,10:00,cancelled,event,2026-05-17 00:00:00,2026-05-17 21:00:00,Cambio de horario,EVT039
+RES191,USER091,Invitado091,SPC016,Biblioteca Sala B,study_room,2026-05-21,15:00,confirmed,meeting,2026-05-14 00:00:00,,,
+RES192,USER092,Invitado092,SPC017,Maker Space,laboratory,2026-05-22,15:00,cancelled,study,2026-05-18 00:00:00,2026-05-19 12:00:00,Cambio de horario,
+RES193,USER093,Invitado093,SPC018,Sala Consejo,meeting_room,2026-05-23,13:00,confirmed,meeting,2026-05-20 00:00:00,,,
+RES194,USER094,Invitado094,SPC019,Auditorio C,auditorio,2026-05-24,10:00,confirmed,sports,2026-05-20 00:00:00,,,
+RES195,USER095,Invitado095,SPC020,Cancha Basquet,sports,2026-05-25,15:00,cancelled,sports,2026-05-20 00:00:00,2026-05-21 10:00:00,Cambio de horario,
+RES196,USER096,Invitado096,SPC021,Salon G201,classroom,2026-05-26,11:00,cancelled,event,2026-05-22 00:00:00,2026-05-22 18:00:00,Cambio de horario,EVT025
+RES197,USER097,Invitado097,SPC022,Salon G202,classroom,2026-05-27,17:00,confirmed,study,2026-05-21 00:00:00,,,
+RES198,USER098,Invitado098,SPC023,Sala Innovacion,meeting_room,2026-05-28,15:00,cancelled,sports,2026-05-25 00:00:00,2026-05-25 23:00:00,Espacio ya no requerido,
+RES199,USER099,Invitado099,SPC024,Huerto Campus,outdoor,2026-05-29,10:00,confirmed,event,2026-05-22 00:00:00,,,EVT030
+RES200,USER100,Invitado100,SPC025,Plaza Central,open_space,2026-05-30,09:00,cancelled,event,2026-05-28 00:00:00,2026-05-28 14:00:00,Cambio de horario,EVT005

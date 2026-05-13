@@ -1,6 +1,41 @@
 event_id,event_name,event_type,description,date,time,capacity,registered_attendees,available_seats,space_id,space_name,space_type,organizer_id,organizer_name,department,event_status
-EVT001,Hackathon IA,Academico,Competencia IA,2026-05-20,10:00,120,95,25,SPC019,Auditorio C,auditorio,ORG001,Coordinacion Ingenieria,Ingenieria,scheduled
-EVT002,Torneo Tocho,Deportivo,Torneo interno,2026-05-21,18:00,60,48,12,SPC007,Cancha Tocho,sports,ORG003,Deportes ITESO,Deportes,scheduled
-EVT003,Obra Teatro,Cultural,Presentacion cultural,2026-05-22,19:00,140,132,8,SPC013,Foro Cultural,forum,ORG002,Centro Cultura,Cultura,scheduled
-EVT004,Networking Startup,Emprendimiento,Conexion startups,2026-05-23,16:00,80,67,13,SPC025,Plaza Central,open_space,ORG005,Emprendimiento Hub,Negocios,scheduled
-EVT005,Seminario Datos,Academico,Seminario BDNR,2026-05-24,11:00,100,74,26,SPC001,Auditorio A,auditorio,ORG001,Coordinacion Ingenieria,Ingenieria,scheduled
+EVT001,Hackathon IA,Academico,Evento universitario de tipo Academico,2026-05-20,09:00,180,141,39,SPC001,Auditorio A,auditorio,ORG001,Coordinacion Ingenieria,Ingenieria,scheduled
+EVT002,Torneo Tocho,Cultural,Evento universitario de tipo Cultural,2026-05-21,11:00,140,140,0,SPC002,Auditorio B,auditorio,ORG002,Centro Cultura,Cultura,scheduled
+EVT003,Obra Teatro,Deportivo,Evento universitario de tipo Deportivo,2026-05-21,10:00,8,6,2,SPC003,Sala Estudio 1,study_room,ORG003,Deportes ITESO,Deportes,scheduled
+EVT004,Networking Startup,Emprendimiento,Evento universitario de tipo Emprendimiento,2026-05-22,16:00,8,5,3,SPC004,Sala Estudio 2,study_room,ORG004,Vida Universitaria,Bienestar,completed
+EVT005,Seminario Datos,Recreativo,Evento universitario de tipo Recreativo,2026-05-22,09:00,10,5,5,SPC005,Sala Estudio 3,study_room,ORG005,Emprendimiento Hub,Negocios,scheduled
+EVT006,Conferencia Sustentabilidad,Academico,Evento universitario de tipo Academico,2026-05-23,10:00,30,16,14,SPC006,Cancha Futbol,sports,ORG006,Arquitectura Lab,Arquitectura,scheduled
+EVT007,Taller Liderazgo,Cultural,Evento universitario de tipo Cultural,2026-05-23,18:00,24,14,10,SPC007,Cancha Tocho,sports,ORG007,Posgrados,Academico,completed
+EVT008,Mesa Dialogo,Deportivo,Evento universitario de tipo Deportivo,2026-05-24,13:00,35,18,17,SPC008,Salon D101,classroom,ORG008,Relaciones Internacionales,Internacional,completed
+EVT009,Expo Proyectos,Emprendimiento,Evento universitario de tipo Emprendimiento,2026-05-24,10:00,35,11,24,SPC009,Salon D102,classroom,ORG001,Coordinacion Ingenieria,Ingenieria,completed
+EVT010,Clase Magistral,Recreativo,Evento universitario de tipo Recreativo,2026-05-25,11:00,35,21,14,SPC010,Salon D103,classroom,ORG002,Centro Cultura,Cultura,scheduled
+EVT011,Festival Cultural,Academico,Evento universitario de tipo Academico,2026-05-25,11:00,28,15,13,SPC011,Lab Sistemas 1,laboratory,ORG003,Deportes ITESO,Deportes,scheduled
+EVT012,Carrera Campus,Cultural,Evento universitario de tipo Cultural,2026-05-26,13:00,28,11,17,SPC012,Lab Sistemas 2,laboratory,ORG004,Vida Universitaria,Bienestar,scheduled
+EVT013,Torneo Basquet,Deportivo,Evento universitario de tipo Deportivo,2026-05-26,11:00,120,85,35,SPC013,Foro Cultural,forum,ORG005,Emprendimiento Hub,Negocios,completed
+EVT014,Presentacion Danza,Emprendimiento,Evento universitario de tipo Emprendimiento,2026-05-27,18:00,50,18,32,SPC014,Terraza Norte,open_space,ORG006,Arquitectura Lab,Arquitectura,completed
+EVT015,Foro Innovacion,Recreativo,Evento universitario de tipo Recreativo,2026-05-27,13:00,12,6,6,SPC015,Biblioteca Sala A,study_room,ORG007,Posgrados,Academico,scheduled
+EVT016,Charla Emprendimiento,Academico,Evento universitario de tipo Academico,2026-05-28,18:00,12,9,3,SPC016,Biblioteca Sala B,study_room,ORG008,Relaciones Internacionales,Internacional,completed
+EVT017,Panel Egresados,Cultural,Evento universitario de tipo Cultural,2026-05-28,10:00,20,15,5,SPC017,Maker Space,laboratory,ORG001,Coordinacion Ingenieria,Ingenieria,scheduled
+EVT018,Taller UX,Deportivo,Evento universitario de tipo Deportivo,2026-05-29,18:00,18,6,12,SPC018,Sala Consejo,meeting_room,ORG002,Centro Cultura,Cultura,scheduled
+EVT019,Laboratorio Maker,Emprendimiento,Evento universitario de tipo Emprendimiento,2026-05-29,09:00,220,147,73,SPC019,Auditorio C,auditorio,ORG003,Deportes ITESO,Deportes,scheduled
+EVT020,Encuentro Internacional,Recreativo,Evento universitario de tipo Recreativo,2026-05-30,09:00,20,19,1,SPC020,Cancha Basquet,sports,ORG004,Vida Universitaria,Bienestar,completed
+EVT021,Retiro Bienestar,Academico,Evento universitario de tipo Academico,2026-05-30,13:00,40,21,19,SPC021,Salon G201,classroom,ORG005,Emprendimiento Hub,Negocios,completed
+EVT022,Cine Foro,Cultural,Evento universitario de tipo Cultural,2026-05-31,11:00,40,18,22,SPC022,Salon G202,classroom,ORG006,Arquitectura Lab,Arquitectura,completed
+EVT023,Debate Universitario,Deportivo,Evento universitario de tipo Deportivo,2026-05-31,18:00,16,8,8,SPC023,Sala Innovacion,meeting_room,ORG007,Posgrados,Academico,completed
+EVT024,Feria Voluntariado,Emprendimiento,Evento universitario de tipo Emprendimiento,2026-06-01,16:00,25,10,15,SPC024,Huerto Campus,outdoor,ORG008,Relaciones Internacionales,Internacional,scheduled
+EVT025,Demo Day,Recreativo,Evento universitario de tipo Recreativo,2026-06-01,10:00,200,128,72,SPC025,Plaza Central,open_space,ORG001,Coordinacion Ingenieria,Ingenieria,completed
+EVT026,Taller Finanzas,Academico,Evento universitario de tipo Academico,2026-06-02,11:00,180,108,72,SPC001,Auditorio A,auditorio,ORG002,Centro Cultura,Cultura,scheduled
+EVT027,Capacitacion Servicio,Cultural,Evento universitario de tipo Cultural,2026-06-02,11:00,140,133,7,SPC002,Auditorio B,auditorio,ORG003,Deportes ITESO,Deportes,scheduled
+EVT028,Sesión Mentoría,Deportivo,Evento universitario de tipo Deportivo,2026-06-03,09:00,8,6,2,SPC003,Sala Estudio 1,study_room,ORG004,Vida Universitaria,Bienestar,completed
+EVT029,Torneo Ajedrez,Emprendimiento,Evento universitario de tipo Emprendimiento,2026-06-03,11:00,8,8,0,SPC004,Sala Estudio 2,study_room,ORG005,Emprendimiento Hub,Negocios,scheduled
+EVT030,Concierto Campus,Recreativo,Evento universitario de tipo Recreativo,2026-06-04,16:00,10,6,4,SPC005,Sala Estudio 3,study_room,ORG006,Arquitectura Lab,Arquitectura,completed
+EVT031,Jornada Salud,Academico,Evento universitario de tipo Academico,2026-06-04,18:00,30,16,14,SPC006,Cancha Futbol,sports,ORG007,Posgrados,Academico,completed
+EVT032,Expo Arquitectura,Cultural,Evento universitario de tipo Cultural,2026-06-05,18:00,24,20,4,SPC007,Cancha Tocho,sports,ORG008,Relaciones Internacionales,Internacional,completed
+EVT033,Seminario Inteligencia Artificial,Deportivo,Evento universitario de tipo Deportivo,2026-06-05,11:00,35,15,20,SPC008,Salon D101,classroom,ORG001,Coordinacion Ingenieria,Ingenieria,scheduled
+EVT034,Charla Ciberseguridad,Emprendimiento,Evento universitario de tipo Emprendimiento,2026-06-06,18:00,35,18,17,SPC009,Salon D102,classroom,ORG002,Centro Cultura,Cultura,completed
+EVT035,Foro Humanidades,Recreativo,Evento universitario de tipo Recreativo,2026-06-06,16:00,35,34,1,SPC010,Salon D103,classroom,ORG003,Deportes ITESO,Deportes,completed
+EVT036,Taller Robotica,Academico,Evento universitario de tipo Academico,2026-06-07,13:00,28,27,1,SPC011,Lab Sistemas 1,laboratory,ORG004,Vida Universitaria,Bienestar,completed
+EVT037,Presentacion Teatro,Cultural,Evento universitario de tipo Cultural,2026-06-07,10:00,28,16,12,SPC012,Lab Sistemas 2,laboratory,ORG005,Emprendimiento Hub,Negocios,completed
+EVT038,Clase Abierta,Deportivo,Evento universitario de tipo Deportivo,2026-06-08,09:00,120,51,69,SPC013,Foro Cultural,forum,ORG006,Arquitectura Lab,Arquitectura,scheduled
+EVT039,Festival Deportivo,Emprendimiento,Evento universitario de tipo Emprendimiento,2026-06-08,18:00,50,25,25,SPC014,Terraza Norte,open_space,ORG007,Posgrados,Academico,scheduled
+EVT040,Encuentro Comunidad,Recreativo,Evento universitario de tipo Recreativo,2026-06-09,16:00,12,11,1,SPC015,Biblioteca Sala A,study_room,ORG008,Relaciones Internacionales,Internacional,scheduled
