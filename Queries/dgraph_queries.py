@@ -262,18 +262,195 @@ def dgraph_r2_eventos_con_distintos_roles(client):
 
 # =========================================================
 # DGRAPH R3
-# Usuarios vinculados a eventos por área
+# Usuarios vinculados a eventos organizados por cierta área
 # =========================================================
 
-# TODO
+def dgraph_r3_usuarios_por_area_organizadora(client):
+    print("\n===== DGRAPH R3 =====")
+    print("Usuarios vinculados a eventos organizados por cierta área")
+    print("\nEsta consulta muestra participantes de eventos organizados por un departamento específico.")
+    print("Ejemplos de departamento: Ingenieria, Cultura, Deportes, Bienestar, Negocios\n")
 
+    department = input("Ingresa el departamento o área organizadora: ").strip()
+
+    if not department:
+        print("Debes ingresar un departamento válido.")
+        return
+
+    query = """
+    query usuariosPorArea($department: string) {
+      organizers(func: eq(department, $department)) {
+        organizer_id
+        organizer_name
+        department
+
+        ~organized_by {
+          event_id
+          event_name
+          event_type
+
+          ~participates_in {
+            user_id
+            user_name
+          }
+        }
+      }
+    }
+    """
+
+    variables = {
+        "$department": department
+    }
+
+    response = client.txn(read_only=True).query(query, variables=variables)
+    data = json.loads(response.json)
+
+    organizers = data.get("organizers", [])
+
+    if not organizers:
+        print(f"No se encontraron organizadores para el departamento: {department}")
+        return
+
+    found_results = False
+
+    print("\n===== USUARIOS VINCULADOS A EVENTOS DEL ÁREA =====\n")
+
+    for organizer in organizers:
+        organizer_id = organizer.get("organizer_id")
+        organizer_name = organizer.get("organizer_name")
+        organizer_department = organizer.get("department")
+
+        formatted_organizer_id = f"ORG{organizer_id:03d}"
+
+        print("==================================================")
+        print(f"Área organizadora: {organizer_name} ({formatted_organizer_id})")
+        print(f"Departamento: {organizer_department}")
+        print("==================================================")
+
+        events = ensure_list(organizer.get("~organized_by", []))
+
+        if not events:
+            print("No hay eventos asociados a esta área.\n")
+            continue
+
+        for event in events:
+            participants = ensure_list(event.get("~participates_in", []))
+
+            if not participants:
+                continue
+
+            found_results = True
+
+            formatted_event_id = f"EVT{event.get('event_id'):03d}"
+
+            print(f"\nEvento: {event.get('event_name')} ({formatted_event_id})")
+            print(f"Tipo de evento: {event.get('event_type')}")
+            print(f"Total de participantes encontrados: {len(participants)}")
+            print("Participantes vinculados:")
+
+            for participant in participants:
+                formatted_user_id = f"USER{participant.get('user_id'):03d}"
+                print(f"- {participant.get('user_name')} ({formatted_user_id})")
+
+        print()
+
+    if not found_results:
+        print("No se encontraron participantes asociados a eventos de esta área.")
 
 # =========================================================
 # DGRAPH R4
-# Participación de usuarios externos
+# Participación de usuarios externos en eventos universitarios
 # =========================================================
 
-# TODO
+def dgraph_r4_participacion_usuarios_externos(client):
+    print("\n===== DGRAPH R4 =====")
+    print("Participación de usuarios externos en eventos universitarios")
+    print("\nEsta consulta muestra eventos donde participaron usuarios externos o invitados.\n")
+
+    query = """
+    {
+    external_users(func: eq(role_type, "invitado")) {
+        role_type
+        role_scope
+
+        ~has_role {
+        user_id
+        user_name
+        campus_id
+
+        participates_in {
+            event_id
+            event_name
+            event_type
+        }
+        }
+    }
+    }
+    """
+
+    response = client.txn(read_only=True).query(query)
+    data = json.loads(response.json)
+
+    roles = data.get("external_users", [])
+
+    if not roles:
+        print("No se encontraron roles externos registrados.")
+        return
+
+    events_map = {}
+
+    for role in roles:
+        users = ensure_list(role.get("~has_role", []))
+
+        for user in users:
+            user_id = user.get("user_id")
+            user_name = user.get("user_name")
+            campus_id = user.get("campus_id")
+
+            events = ensure_list(user.get("participates_in", []))
+
+            for event in events:
+                event_id = event.get("event_id")
+                event_name = event.get("event_name")
+                event_type = event.get("event_type")
+
+                if event_id not in events_map:
+                    events_map[event_id] = {
+                        "event_id": event_id,
+                        "event_name": event_name,
+                        "event_type": event_type,
+                        "external_users": []
+                    }
+
+                events_map[event_id]["external_users"].append({
+                    "user_id": user_id,
+                    "user_name": user_name,
+                    "campus_id": campus_id
+                })
+
+    if not events_map:
+        print("No se encontraron eventos con participación de usuarios externos.")
+        return
+
+    print("\n===== EVENTOS CON PARTICIPACIÓN EXTERNA =====\n")
+
+    for event in events_map.values():
+        formatted_event_id = f"EVT{event['event_id']:03d}"
+
+        print("--------------------------------------------------")
+        print(f"Evento: {event['event_name']} ({formatted_event_id})")
+        print(f"Tipo de evento: {event['event_type']}")
+        print(f"Total de usuarios externos: {len(event['external_users'])}")
+        print("\nUsuarios externos participantes:")
+
+        for user in event["external_users"]:
+            formatted_user_id = f"USER{user['user_id']:03d}"
+            print(
+                f"- {user['user_name']} ({formatted_user_id}) "
+                f"| Código externo: {user['campus_id']}"
+            )
+
+        print("--------------------------------------------------\n")
 
 
 # =========================================================
@@ -281,7 +458,109 @@ def dgraph_r2_eventos_con_distintos_roles(client):
 # Espacios usados por usuarios según tipo de evento
 # =========================================================
 
-# TODO
+def dgraph_r5_espacios_por_usuario_y_tipo_evento(client):
+    print("\n===== DGRAPH R5 =====")
+    print("Espacios usados por usuarios según tipo de evento")
+    print("\nEsta consulta muestra qué espacios ha utilizado un usuario según los eventos en los que participa.")
+    print("Puedes buscar por nombre, código institucional o código interno.")
+    print("Ejemplos válidos: Diego Alvarez, A001, USER001\n")
+
+    user_input = input("Ingresa el usuario: ").strip()
+
+    user_id = resolve_user_input(client, user_input)
+
+    if user_id is None:
+        print("No se encontró el usuario. Intenta con USER001, A001 o el nombre completo.")
+        return
+
+    query = """
+    query espaciosPorUsuario($user_id: int) {
+      user(func: eq(user_id, $user_id)) {
+        user_id
+        user_name
+        campus_id
+
+        participates_in {
+          event_id
+          event_name
+          event_type
+
+          takes_place_in {
+            space_id
+            space_name
+            space_type
+            capacity
+          }
+        }
+      }
+    }
+    """
+
+    variables = {
+        "$user_id": str(user_id)
+    }
+
+    response = client.txn(read_only=True).query(query, variables=variables)
+    data = json.loads(response.json)
+
+    users = data.get("user", [])
+
+    if not users:
+        print("No se encontró información del usuario.")
+        return
+
+    user = users[0]
+    user_name = user.get("user_name")
+    campus_id = user.get("campus_id")
+
+    events = ensure_list(user.get("participates_in", []))
+
+    if not events:
+        print(f"{user_name} no tiene eventos registrados.")
+        return
+
+    print("\n===== ESPACIOS USADOS SEGÚN TIPO DE EVENTO =====\n")
+    print(f"Usuario: {user_name}")
+    print(f"Código institucional: {campus_id}")
+    print(f"Total de eventos encontrados: {len(events)}\n")
+
+    grouped_by_type = {}
+
+    for event in events:
+        event_type = event.get("event_type", "Sin tipo")
+
+        if event_type not in grouped_by_type:
+            grouped_by_type[event_type] = []
+
+        spaces = ensure_list(event.get("takes_place_in", []))
+
+        for space in spaces:
+            grouped_by_type[event_type].append({
+                "event_id": event.get("event_id"),
+                "event_name": event.get("event_name"),
+                "space_id": space.get("space_id"),
+                "space_name": space.get("space_name"),
+                "space_type": space.get("space_type"),
+                "capacity": space.get("capacity")
+            })
+
+    for event_type, records in grouped_by_type.items():
+        print("--------------------------------------------------")
+        print(f"Tipo de evento: {event_type}")
+        print(f"Espacios relacionados: {len(records)}\n")
+
+        for record in records:
+            formatted_event_id = f"EVT{record['event_id']:03d}"
+            formatted_space_id = f"SPC{record['space_id']:03d}"
+
+            print(f"- Evento: {record['event_name']} ({formatted_event_id})")
+            print(
+                f"  Espacio utilizado: {record['space_name']} ({formatted_space_id})"
+            )
+            print(f"  Tipo de espacio: {record['space_type']}")
+            print(f"  Capacidad: {record['capacity']} personas\n")
+
+    print("Consulta finalizada.")
 
 
 # =========================================================
