@@ -6,7 +6,7 @@ Sistema multi-modelo para gestión de eventos universitarios utilizando **Cassan
 
 - Diego Alejandro Alvarez Hernández  
 - Ángel Barbarín  
-- Fabricio
+- Fabián Gaxiola
 
 ---
 
