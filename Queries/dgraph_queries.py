@@ -170,11 +170,95 @@ def dgraph_r1_users_coinciden(client):
 
 # =========================================================
 # DGRAPH R2
-# Eventos con usuarios de distintos roles
+# Eventos en los que coinciden usuarios de distintos roles
 # =========================================================
 
-# TODO
+def dgraph_r2_eventos_con_distintos_roles(client):
+    print("\n===== DGRAPH R2 =====")
+    print("Eventos en los que coinciden usuarios de distintos roles")
+    print("\nEsta consulta muestra eventos donde participaron personas con diferentes tipos de rol.")
+    print("Ejemplo: estudiantes con docentes, invitados con administrativos, etc.\n")
 
+    query = """
+    {
+      events(func: type(Event)) {
+        event_id
+        event_name
+        event_type
+
+        ~participates_in {
+          user_id
+          user_name
+
+          has_role {
+            role_type
+          }
+        }
+      }
+    }
+    """
+
+    response = client.txn(read_only=True).query(query)
+    data = json.loads(response.json)
+
+    events = data.get("events", [])
+
+    if not events:
+        print("No se encontraron eventos registrados.")
+        return
+
+    found_results = False
+
+    print("\n===== EVENTOS CON PARTICIPANTES DE DISTINTOS ROLES =====\n")
+
+    for event in events:
+        role_counts = {}
+
+        participants = ensure_list(event.get("~participates_in", []))
+
+        for participant in participants:
+            roles = ensure_list(participant.get("has_role", []))
+
+            for role in roles:
+                role_type = role.get("role_type")
+
+                if not role_type:
+                    continue
+
+                if role_type not in role_counts:
+                    role_counts[role_type] = 0
+
+                role_counts[role_type] += 1
+
+        # Solo nos interesan eventos con mínimo 2 roles diferentes
+        if len(role_counts) < 2:
+            continue
+
+        found_results = True
+
+        event_id = event.get("event_id")
+        event_name = event.get("event_name")
+        event_type = event.get("event_type")
+
+        formatted_event_id = f"EVT{event_id:03d}"
+
+        print("--------------------------------------------------")
+        print(f"Evento: {event_name} ({formatted_event_id})")
+        print(f"Tipo de evento: {event_type}")
+        print("\nRoles que coincidieron en este evento:")
+
+        for role_type, count in role_counts.items():
+            participante_texto = "participante" if count == 1 else "participantes"
+            print(f"- {role_type}: {count} {participante_texto}")
+
+        print("\nResumen:")
+        print(
+            f"En este evento coincidieron {len(role_counts)} tipos de usuarios diferentes."
+        )
+        print("--------------------------------------------------\n")
+
+    if not found_results:
+        print("No se encontraron eventos donde coincidan usuarios de distintos roles.")
 
 # =========================================================
 # DGRAPH R3
