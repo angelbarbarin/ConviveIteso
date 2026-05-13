@@ -4,9 +4,9 @@ Sistema multi-modelo para gestión de eventos universitarios utilizando **Cassan
 
 ## Integrantes
 
-* Diego Alejandro Alvarez Hernández
-* Ángel Barbarín
-* (Agregar integrantes restantes si aplica)
+- Diego Alejandro Alvarez Hernández  
+- Ángel Barbarín  
+- Fabricio
 
 ---
 
@@ -14,26 +14,30 @@ Sistema multi-modelo para gestión de eventos universitarios utilizando **Cassan
 
 ConviveITESO es una plataforma conceptual para administrar:
 
-* Eventos universitarios (académicos, culturales, deportivos y recreativos)
-* Reservación y uso de espacios dentro del campus
-* Registro histórico de asistencia y actividad de usuarios
-* Análisis de relaciones entre usuarios, roles, organizadores y eventos
+- Eventos universitarios (académicos, culturales, deportivos y recreativos)
+- Reservación y uso de espacios dentro del campus
+- Registro histórico de asistencia y actividad de usuarios
+- Análisis de relaciones entre usuarios, roles, organizadores y eventos
 
-El proyecto usa un enfoque **polyglot persistence**, aprovechando la mejor base para cada tipo de problema:
+El proyecto usa un enfoque **polyglot persistence**, aprovechando la mejor base para cada tipo de problema.
 
-## Tecnologías utilizadas
+---
 
-### Cassandra
+# Tecnologías utilizadas
+
+## Cassandra
 
 Orientada a consultas históricas y patrones de acceso por tiempo.
 
 Usada para:
 
-* Historial de asistencia
-* Historial de reservaciones
-* Check-ins
-* Cancelaciones
-* Actividad por usuario
+- Historial de asistencia
+- Historial de reservaciones
+- Check-ins
+- Cancelaciones
+- Actividad por usuario
+
+---
 
 ## MongoDB
 
@@ -41,10 +45,12 @@ Modelo documental para entidades y agregaciones.
 
 Usada para:
 
-* Eventos
-* Espacios
-* Reservaciones
-* Analíticas y pipelines
+- Eventos
+- Espacios
+- Reservaciones
+- Analíticas y pipelines
+
+---
 
 ## Dgraph
 
@@ -52,10 +58,11 @@ Modelo de grafo para relaciones complejas.
 
 Usado para:
 
-* Coincidencias entre usuarios
-* Roles en eventos
-* Participación externa
-* Relaciones entre organizadores, usuarios y espacios
+- Usuarios relacionados por eventos compartidos
+- Eventos con múltiples tipos de participantes
+- Participación de usuarios externos
+- Relaciones entre organizadores y roles
+- Uso compartido de espacios universitarios
 
 ---
 
@@ -63,11 +70,11 @@ Usado para:
 
 El proyecto implementa **24 requerimientos funcionales**:
 
-* 8 Cassandra
-* 8 MongoDB
-* 8 Dgraph
+- 8 Cassandra
+- 8 MongoDB
+- 8 Dgraph
 
-Consultas agrupadas en:
+Las consultas están agrupadas por categorías para mejorar la experiencia del usuario:
 
 1. Historial y actividad de usuarios
 2. Consulta de eventos
@@ -87,6 +94,14 @@ ConviveIteso/
 ├── main.py
 ├── connect.py
 ├── populate.py
+├── generate_csv_data.py
+├── test_dgraph.py
+│
+├── Queries/
+│   ├── __init__.py
+│   ├── cassandra_queries.py
+│   ├── mongo_queries.py
+│   └── dgraph_queries.py
 │
 ├── data/
 │   ├── users.csv
@@ -98,30 +113,22 @@ ConviveIteso/
 │   ├── reservations.csv
 │   └── checkins.csv
 │
-├── cassandra/
-├── mongo/
-├── dgraph/
-│
 └── README.md
-```
-
----
-
 # Modelo de Datos
 
 ## Cassandra
 
 Tablas:
 
-* attendance_by_user
-* reservations_by_user
-* attendance_by_event_date
-* space_usage_by_space_date
-* user_activity_by_date
-* checkins_by_space
-* cancelled_reservations_by_user
-* cancelled_reservations_by_space
-* participation_by_user_activity_type
+- attendance_by_user
+- reservations_by_user
+- attendance_by_event_date
+- space_usage_by_space_date
+- user_activity_by_date
+- checkins_by_space
+- cancelled_reservations_by_user
+- cancelled_reservations_by_space
+- participation_by_user_activity_type
 
 Modelo basado en Query-Driven Design.
 
@@ -131,15 +138,15 @@ Modelo basado en Query-Driven Design.
 
 Colecciones:
 
-* events
-* spaces
-* reservations
+- events
+- spaces
+- reservations
 
 Incluye:
 
-* Índices simples y compuestos
-* Aggregation pipelines
-* Modelo embebido para organizer_info
+- Índices simples y compuestos
+- Aggregation pipelines
+- Modelo embebido para organizer_info
 
 ---
 
@@ -147,44 +154,55 @@ Incluye:
 
 Nodos:
 
-* User
-* Role
-* Event
-* Organizer
-* Space
+- User
+- Role
+- Event
+- Organizer
+- Space
 
 Relaciones:
 
-* has_role
-* participates_in
-* organized_by
-* takes_place_in
-* uses_space
+- has_role
+- participates_in
+- organized_by
+- takes_place_in
+- uses_space
 
 ---
 
 # Dataset
 
-Carga inicial mediante archivos CSV.
+La carga de datos se realiza mediante archivos CSV generados automáticamente con `generate_csv_data.py`.
+
+El dataset fue diseñado para generar relaciones reales entre usuarios, eventos, organizadores y espacios, permitiendo consultas significativas especialmente en Dgraph.
 
 Dataset base:
 
-* 100 usuarios
-* 25 espacios
-* 40 eventos
-* 200 reservaciones
-* 400 asistencias
-* 250 check-ins
-* 8 organizadores
-* 4 roles
+- 100 usuarios
+- 25 espacios
+- 40 eventos
+- 200 reservaciones
+- 400 asistencias
+- 250 check-ins
+- 8 organizadores
+- 4 roles
 
-Los datos fueron diseñados con overlap entre usuarios y eventos para permitir consultas significativas en Dgraph.
+Los datos incluyen:
+
+- overlap entre participantes
+- usuarios internos y externos
+- distintos tipos de eventos
+- reservaciones canceladas
+- relaciones organizador-evento
+- uso compartido de espacios
+
+Esto permite realizar consultas reales y relaciones complejas entre entidades.
 
 ---
 
 # Instalación
 
-## 1 Clonar repositorio
+## 1. Clonar repositorio
 
 ```bash
 git clone https://github.com/angelbarbarin/ConviveIteso.git
@@ -193,7 +211,23 @@ cd ConviveIteso
 
 ---
 
-## 2 Instalar dependencias Python
+## 2. Crear entorno virtual
+
+```bash
+python -m venv venv
+```
+
+Activar entorno virtual:
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+---
+
+## 3. Instalar dependencias Python
 
 ```bash
 pip install pymongo cassandra-driver pydgraph faker
@@ -222,10 +256,22 @@ docker run --name mongo-convive -p 27017:27017 -d mongo
 ## Dgraph
 
 ```bash
-docker run -it -p 8080:8080 -p 9080:9080 dgraph/standalone:latest
+docker run --name dgraph-convive -p 8080:8080 -p 9080:9080 -d dgraph/standalone:latest
 ```
 
-Ratel UI:
+---
+
+## Verificar contenedores
+
+```bash
+docker ps
+```
+
+---
+
+# Dgraph Ratel
+
+Interfaz gráfica para visualizar el grafo:
 
 ```text
 http://localhost:8080
@@ -235,15 +281,42 @@ http://localhost:8080
 
 # Configuración de conexión
 
-Ajustar `connect.py` según entorno local:
+El archivo `connect.py` concentra las conexiones a las tres bases de datos:
 
-* Cassandra → localhost:9042
-* MongoDB → localhost:27017
-* Dgraph → localhost:9080
+- Cassandra → localhost:9042
+- MongoDB → localhost:27017
+- Dgraph → localhost:9080
 
 ---
 
-# Poblar datos
+# Generar datasets automáticamente
+
+El proyecto incluye un generador automático de datos realistas.
+
+Ejecutar:
+
+```bash
+python generate_csv_data.py
+```
+
+Esto genera:
+
+- usuarios con nombres reales
+- eventos universitarios
+- overlap entre participantes
+- reservaciones
+- check-ins
+- relaciones útiles para Dgraph
+
+Posteriormente ejecutar:
+
+```bash
+python populate.py
+```
+
+---
+
+# Poblar bases de datos
 
 Ejecutar:
 
@@ -253,10 +326,10 @@ python populate.py
 
 Esto:
 
-* crea tablas Cassandra
-* crea esquema Dgraph
-* carga CSV en las 3 bases
-* crea índices MongoDB
+- crea tablas Cassandra
+- crea esquema Dgraph
+- carga CSV en las 3 bases
+- crea índices MongoDB
 
 ---
 
@@ -279,35 +352,79 @@ Menú principal:
 
 ---
 
+# Experiencia de usuario
+
+El sistema fue diseñado para que las consultas no dependan únicamente de identificadores técnicos.
+
+Por ejemplo, los usuarios pueden realizar búsquedas utilizando:
+
+- nombres completos
+- códigos institucionales
+- identificadores amigables
+
+Ejemplos válidos:
+
+```text
+Diego Alvarez
+A001
+USER001
+```
+
+Esto permite que las consultas sean más naturales para el usuario final.
+
+---
+
 # Ejemplos de consultas
 
 ## Cassandra
 
-* Historial reciente de asistencia por usuario
-* Últimos check-ins de un espacio
-* Reservaciones canceladas por espacio
+- Historial reciente de asistencia por usuario
+- Últimos check-ins de un espacio
+- Reservaciones canceladas por espacio
+- Actividad histórica por rango de fechas
+
+---
 
 ## MongoDB
 
-* Eventos por tipo y fecha
-* Eventos con mayor demanda
-* Reservaciones por tipo de espacio
+- Eventos por tipo y fecha
+- Eventos con mayor demanda
+- Reservaciones por tipo de espacio
+- Espacios disponibles para reserva
+
+---
 
 ## Dgraph
 
-* Usuarios que coinciden en eventos
-* Eventos con roles distintos
-* Participación de usuarios externos
+- Usuarios que coinciden en eventos
+- Eventos con roles distintos
+- Participación de usuarios externos
+- Usuarios vinculados por espacios compartidos
+- Organizadores relacionados con roles de usuarios
+
+---
+
+# Pruebas individuales
+
+Durante el desarrollo se utilizan archivos de prueba independientes para validar consultas antes de integrarlas al menú principal.
+
+Ejemplo:
+
+```bash
+python test_dgraph.py
+```
+
+Esto facilita el desarrollo incremental y el debugging de consultas complejas.
 
 ---
 
 # Flujo de ejecución
 
-1. Conectar a las tres bases
-2. Poblar datos con CSV
-3. Ejecutar menú
-4. Seleccionar categoría
-5. Ejecutar consulta
+1. Generar datasets automáticamente
+2. Levantar bases de datos
+3. Ejecutar `populate.py`
+4. Ejecutar menú principal
+5. Ejecutar consultas
 
 ---
 
@@ -315,39 +432,41 @@ Menú principal:
 
 El proyecto sigue el principio:
 
-**La consulta define el modelo.**
+## “La consulta define el modelo”
 
 Se eligió cada base según el problema:
 
-| Necesidad                 | Base elegida |
-| ------------------------- | ------------ |
-| Históricos por tiempo     | Cassandra    |
-| Documentos y agregaciones | MongoDB      |
-| Relaciones complejas      | Dgraph       |
+| Necesidad | Base elegida |
+|---|---|
+| Históricos por tiempo | Cassandra |
+| Documentos y agregaciones | MongoDB |
+| Relaciones complejas | Dgraph |
 
 ---
 
 # Commits relevantes del avance
 
-Ejemplos (actualizar con hashes reales):
-
 ```bash
 Initial repository structure
-Multi-database modeling added
-Populate script with CSV loading
-Main menu grouped by sections
-Final intermediate delivery fixes
+Database modeling implementation
+CSV automatic dataset generator
+Populate integration for MongoDB Cassandra and Dgraph
+Grouped menu structure
+User-friendly Dgraph queries
+Schema and index improvements
 ```
 
 ---
 
 # Posibles mejoras futuras
 
-* API con FastAPI/Flask
-* Dashboard para analíticas
-* Recomendador de eventos por grafo
-* Visualización de relaciones en Dgraph
-* Reservación en tiempo real
+- API con FastAPI o Flask
+- Dashboard para analíticas
+- Recomendador de eventos basado en grafo
+- Visualización avanzada de relaciones en Dgraph
+- Reservación en tiempo real
+- Sistema de autenticación
+- Frontend web interactivo
 
 ---
 
@@ -355,7 +474,7 @@ Final intermediate delivery fixes
 
 Proyecto desarrollado para:
 
-**Bases de Datos No Relacionales**
+**Bases de Datos No Relacionales**  
 ITESO
 
 ---
@@ -366,26 +485,53 @@ Proyecto académico para fines educativos.
 
 ---
 
-## Nota
+# Nota importante
 
-Si es la primera vez corriendo el proyecto:
+Si es la primera vez ejecutando el proyecto:
 
 ```bash
-1. Levantar contenedores
-2. Ejecutar populate.py
-3. Ejecutar main.py
+1. Levantar contenedores Docker
+2. Ejecutar generate_csv_data.py
+3. Ejecutar populate.py
+4. Ejecutar main.py
 ```
 
 En ese orden.
 
 ---
 
-Si hay errores de conexión:
+# Solución de problemas
 
-Verificar:
+## Verificar contenedores activos
 
 ```bash
 docker ps
 ```
 
-y revisar que Cassandra, Mongo y Dgraph estén activos.
+---
+
+## Reiniciar bases de datos
+
+```bash
+docker restart mongo-convive
+docker restart cassandra-convive
+docker restart dgraph-convive
+```
+
+---
+
+## Si Cassandra tarda en conectar
+
+Esperar aproximadamente 1 o 2 minutos después de iniciar el contenedor.
+
+---
+
+## Si Dgraph no responde
+
+Verificar:
+
+```text
+http://localhost:8080
+```
+
+y confirmar que el contenedor esté activo.
