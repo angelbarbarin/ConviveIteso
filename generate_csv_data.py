@@ -8,6 +8,59 @@ DATA_DIR.mkdir(exist_ok=True)
 
 random.seed(42)
 
+FIRST_NAMES = [
+    "Diego", "Sofia", "Carlos", "Fernanda", "Valeria", "Daniel", "Andrea", "Luis",
+    "Camila", "Jorge", "Regina", "Emiliano", "Paola", "Mateo", "Mariana", "Sebastian",
+    "Natalia", "Alejandro", "Lucia", "Miguel", "Ximena", "Rodrigo", "Isabella", "Fernando",
+    "Ana", "Pablo", "Danna", "Ricardo", "Renata", "Andres", "Victoria", "Hector",
+    "Jimena", "Oscar", "Elena", "Raul", "Aitana", "Ivan", "Claudia", "Tomas",
+    "Daniela", "Mauricio", "Gabriela", "Adrian", "Monica", "Santiago", "Carolina", "Bruno",
+    "Patricia", "Leonardo"
+]
+
+LAST_NAMES = [
+    "Alvarez", "Martinez", "Hernandez", "Gomez", "Ramirez", "Torres", "Castillo", "Ruiz",
+    "Flores", "Morales", "Navarro", "Mendoza", "Vargas", "Cruz", "Reyes", "Sanchez",
+    "Ortega", "Rojas", "Medina", "Aguilar"
+]
+
+
+def generate_users(total_users=100):
+    rows = []
+
+    for i in range(1, total_users + 1):
+        first = FIRST_NAMES[(i - 1) % len(FIRST_NAMES)]
+        last = LAST_NAMES[(i - 1) % len(LAST_NAMES)]
+        full_name = f"{first} {last}"
+
+        if i <= 65:
+            role_id = "ROLE001"
+            email = f"{first.lower()}.{last.lower()}{i}@iteso.mx"
+            campus_id = f"A{i:03d}"
+        elif i <= 80:
+            role_id = "ROLE002"
+            email = f"{first.lower()}.{last.lower()}{i}@iteso.mx"
+            campus_id = f"D{i:03d}"
+        elif i <= 90:
+            role_id = "ROLE003"
+            email = f"{first.lower()}.{last.lower()}{i}@iteso.mx"
+            campus_id = f"AD{i:03d}"
+        else:
+            role_id = "ROLE004"
+            email = f"{first.lower()}.{last.lower()}{i}@mail.com"
+            campus_id = f"EXT{i:03d}"
+
+        rows.append({
+            "user_id": f"USER{i:03d}",
+            "user_name": full_name,
+            "email": email,
+            "status": "active",
+            "campus_id": campus_id,
+            "role_id": role_id
+        })
+
+    return rows
+
 
 EVENT_TYPES = ["Academico", "Cultural", "Deportivo", "Emprendimiento", "Recreativo"]
 RESERVATION_TYPES = ["study", "meeting", "sports", "event"]
@@ -204,7 +257,7 @@ def generate_checkins(users, spaces, total_checkins=250):
 
 
 def main():
-    users = read_csv("users.csv")
+    users = generate_users(total_users=100)
     spaces = read_csv("spaces.csv")
     organizers = read_csv("organizers.csv")
 
@@ -212,6 +265,12 @@ def main():
     attendance = generate_attendance(users, events, rows_per_event=10)
     reservations = generate_reservations(users, spaces, events, total_reservations=200)
     checkins = generate_checkins(users, spaces, total_checkins=250)
+
+    write_csv(
+        "users.csv",
+        ["user_id", "user_name", "email", "status", "campus_id", "role_id"],
+        users
+    )
 
     write_csv(
         "events.csv",

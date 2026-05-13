@@ -411,10 +411,10 @@ def populate_cassandra():
 def set_dgraph_schema(client):
     schema = """
     user_id: int @index(int) .
-    user_name: string .
+    user_name: string @index(exact) .
     email: string .
     status: string .
-    campus_id: string .
+    campus_id: string @index(hash) .
 
     role_id: int @index(int) .
     role_type: string @index(hash) .
@@ -422,7 +422,7 @@ def set_dgraph_schema(client):
 
     event_id: int @index(int) .
     event_name: string .
-    event_type: string @index(term) .
+    event_type: string @index(hash) .
     event_date: datetime .
     event_status: string .
 
@@ -437,11 +437,11 @@ def set_dgraph_schema(client):
     location: geo .
 
     has_role: uid @reverse .
-    participates_in: uid @reverse .
+    participates_in: [uid] @reverse .
     organized_by: uid @reverse .
     takes_place_in: uid @reverse .
-    uses_space: uid @reverse .
-
+    uses_space: [uid] @reverse .
+    
     type User {
         user_id
         user_name
