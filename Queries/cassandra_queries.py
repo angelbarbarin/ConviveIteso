@@ -389,3 +389,88 @@ def cassandra_r6_ultimos_checkins_espacio(session):
         print(f"Contexto de actividad: {row.activity_context}")
         print(f"Estado: {row.status}")
         print("-" * 80)
+def cassandra_r7_historial_reservaciones_canceladas(session):
+    """
+    Requerimiento 7:
+    Consultar el historial de reservaciones canceladas de un usuario
+    o de un espacio específico, ordenado de la cancelación más reciente
+    a la más antigua.
+    """
+
+    _ensure_cassandra_keyspace(session)
+
+    print("\n===== Cassandra R7: Historial de reservaciones canceladas =====")
+    print("1. Consultar cancelaciones por usuario")
+    print("2. Consultar cancelaciones por espacio")
+
+    opcion = input("Selecciona una opción: ").strip()
+
+    if opcion == "1":
+        user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
+        user_id = _normalize_user_id(user_input)
+
+        query = """
+            SELECT reservation_id,
+                   user_id,
+                   space_id,
+                   space_name,
+                   cancellation_timestamp,
+                   reservation_status,
+                   cancellation_reason
+            FROM cancelled_reservations_by_user
+            WHERE user_id = %s
+            ORDER BY cancellation_timestamp DESC;
+        """
+
+        rows = session.execute(query, (user_id,))
+        rows = list(rows)
+
+        titulo = f"Reservaciones canceladas del usuario {user_id}"
+
+    elif opcion == "2":
+        space_input = input("Ingresa el space_id del espacio, por ejemplo SPC001 o 1: ")
+        space_id = _normalize_space_id(space_input)
+
+        query = """
+            SELECT reservation_id,
+                   user_id,
+                   space_id,
+                   space_name,
+                   cancellation_timestamp,
+                   reservation_status,
+                   cancellation_reason
+            FROM cancelled_reservations_by_space
+            WHERE space_id = %s
+            ORDER BY cancellation_timestamp DESC;
+        """
+
+        rows = session.execute(query, (space_id,))
+        rows = list(rows)
+
+        titulo = f"Reservaciones canceladas del espacio {space_id}"
+
+    else:
+        print("\nOpción inválida. Intenta de nuevo.\n")
+        return
+
+    rows = [
+        row for row in rows
+        if str(row.reservation_status).lower() == "cancelled"
+    ]
+
+    if not rows:
+        print("\nNo se encontraron reservaciones canceladas para la búsqueda seleccionada.\n")
+        return
+
+    print(f"\n{titulo}:")
+    print("-" * 80)
+
+    for row in rows:
+        print(f"ID de reservación: {row.reservation_id}")
+        print(f"Usuario: {row.user_id}")
+        print(f"Espacio: {row.space_name}")
+        print(f"ID del espacio: {row.space_id}")
+        print(f"Fecha de cancelación: {row.cancellation_timestamp}")
+        print(f"Estado de reservación: {row.reservation_status}")
+        print(f"Motivo de cancelación: {row.cancellation_reason}")
+        print("-" * 80)
