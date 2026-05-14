@@ -1,5 +1,19 @@
-from connect import connect_mongo, connect_cassandra, connect_dgraph
+from connect import (
+    get_mongo_db,
+    get_cassandra_session,
+    get_dgraph_client
+)
 
+from Queries.dgraph_queries import (
+    dgraph_r1_users_coinciden,
+    dgraph_r2_eventos_con_distintos_roles,
+    dgraph_r3_usuarios_por_area_organizadora,
+    dgraph_r4_participacion_usuarios_externos,
+    dgraph_r5_espacios_por_usuario_y_tipo_evento,
+    dgraph_r6_organizadores_por_tipo_usuario,
+    dgraph_r7_usuarios_vinculados_evento_o_espacio,
+    dgraph_r8_tipos_eventos_conectan_usuarios
+)
 
 def mostrar_menu_principal():
     print("\n===== CONVIVE ITESO - MENÚ PRINCIPAL =====")
@@ -66,7 +80,7 @@ def ejecutar_opcion(nombre_consulta):
     print("Esta opción queda preparada para integrar la lógica de consulta correspondiente.\n")
 
 
-def ejecutar_submenu(tipo):
+def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=None):
     while True:
         if tipo == "historial":
             menu_historial()
@@ -84,28 +98,58 @@ def ejecutar_submenu(tipo):
         if opcion == "0":
             break
 
-        ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
+        # =========================
+        # CONSULTAS DGRAPH EN GRAFO
+        # =========================
+        if tipo == "grafo":
+            if opcion == "1":
+                dgraph_r1_users_coinciden(dgraph_client)
+            elif opcion == "2":
+                dgraph_r2_eventos_con_distintos_roles(dgraph_client)
+            elif opcion == "3":
+                dgraph_r3_usuarios_por_area_organizadora(dgraph_client)
+            elif opcion == "4":
+                dgraph_r4_participacion_usuarios_externos(dgraph_client)
+            elif opcion == "5":
+                dgraph_r5_espacios_por_usuario_y_tipo_evento(dgraph_client)
+            elif opcion == "6":
+                dgraph_r7_usuarios_vinculados_evento_o_espacio(dgraph_client)
+            else:
+                print("Opción inválida en consultas de grafo.")
 
+        # =========================
+        # CONSULTAS DGRAPH EN ANALÍTICAS
+        # =========================
+        elif tipo == "analiticas":
+            if opcion == "4":
+                dgraph_r6_organizadores_por_tipo_usuario(dgraph_client)
+            elif opcion == "5":
+                dgraph_r8_tipos_eventos_conectan_usuarios(dgraph_client)
+            else:
+                ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
+
+        else:
+            ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
 
 def main():
-    mongo_db = connect_mongo()
-    cassandra_session = connect_cassandra()
-    dgraph_client = connect_dgraph()
+    mongo_db = get_mongo_db()
+    cassandra_session = get_cassandra_session()
+    dgraph_client = get_dgraph_client()
 
     while True:
         mostrar_menu_principal()
         opcion = input("Selecciona una sección: ")
 
         if opcion == "1":
-            ejecutar_submenu("historial")
+            ejecutar_submenu("historial", mongo_db, cassandra_session, dgraph_client)
         elif opcion == "2":
-            ejecutar_submenu("eventos")
+            ejecutar_submenu("eventos", mongo_db, cassandra_session, dgraph_client)
         elif opcion == "3":
-            ejecutar_submenu("espacios")
+            ejecutar_submenu("espacios", mongo_db, cassandra_session, dgraph_client)
         elif opcion == "4":
-            ejecutar_submenu("analiticas")
+            ejecutar_submenu("analiticas", mongo_db, cassandra_session, dgraph_client)
         elif opcion == "5":
-            ejecutar_submenu("grafo")
+            ejecutar_submenu("grafo", mongo_db, cassandra_session, dgraph_client)
         elif opcion == "0":
             print("Saliendo del sistema Convive ITESO...")
             break
