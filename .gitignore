@@ -1,2 +1,15 @@
-# Ignorar el entorno virtual
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
 venv/
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
