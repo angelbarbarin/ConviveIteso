@@ -222,7 +222,7 @@ Activar entorno virtual:
 ### Windows
 
 ```bash
-venv\Scripts\activate
+.\venv\Scripts\Activate.ps1
 ```
 
 ---
@@ -232,6 +232,8 @@ venv\Scripts\activate
 ```bash
 pip install pymongo cassandra-driver pydgraph faker
 ```
+python -m pip install --upgrade pip
+pip install -r requirements.txt
 
 ---
 
