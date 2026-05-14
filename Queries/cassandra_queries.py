@@ -116,6 +116,7 @@ def cassandra_r2_historial_reservaciones_usuario(session):
         print(f"Fecha de uso: {row.usage_date}")
         print(f"Estado de reservación: {row.reservation_status}")
         print("-" * 80)
+        
 def _normalize_event_id(event_input):
     """
     Normaliza el event_id.
@@ -195,6 +196,7 @@ def cassandra_r3_asistencias_por_evento(session):
         print(f"Hora de asistencia: {row.attendance_timestamp}")
         print(f"Estado de asistencia: {row.attendance_status}")
         print("-" * 80)
+
 def _normalize_space_id(space_input):
     """
     Normaliza el space_id.
@@ -271,6 +273,7 @@ def cassandra_r4_historial_uso_espacio(session):
 
         print(f"Estado: {row.status}")
         print("-" * 80)
+
 def _generate_date_range(start_date, end_date):
     """
     Genera todas las fechas entre start_date y end_date, incluyendo ambas.
@@ -344,6 +347,7 @@ def cassandra_r5_actividad_usuario_rango_fechas(session):
         print(f"ID relacionado: {row.related_id}")
         print(f"Detalles: {row.details}")
         print("-" * 80)
+
 def cassandra_r6_ultimos_checkins_espacio(session):
     """
     Requerimiento 6:
@@ -389,6 +393,7 @@ def cassandra_r6_ultimos_checkins_espacio(session):
         print(f"Contexto de actividad: {row.activity_context}")
         print(f"Estado: {row.status}")
         print("-" * 80)
+
 def cassandra_r7_historial_reservaciones_canceladas(session):
     """
     Requerimiento 7:
@@ -473,4 +478,92 @@ def cassandra_r7_historial_reservaciones_canceladas(session):
         print(f"Fecha de cancelación: {row.cancellation_timestamp}")
         print(f"Estado de reservación: {row.reservation_status}")
         print(f"Motivo de cancelación: {row.cancellation_reason}")
+        print("-" * 80)
+
+def cassandra_r8_participacion_usuario_tipo_actividad(session):
+    """
+    Requerimiento 8:
+    Consultar la participación histórica de un usuario filtrada por tipo de actividad
+    y opcionalmente por rango de fechas, ordenada de la más reciente a la más antigua.
+    """
+
+    _ensure_cassandra_keyspace(session)
+
+    print("\n===== Cassandra R8: Participación de usuario por tipo de actividad =====")
+
+    user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
+    activity_type_input = input("Ingresa el tipo de actividad, por ejemplo conferencia, taller, deporte, cultura: ")
+
+    user_id = _normalize_user_id(user_input)
+    activity_type = activity_type_input.strip().lower()
+
+    print("\nRango de fechas opcional.")
+    print("Si no quieres filtrar por fechas, presiona Enter en ambas preguntas.")
+
+    start_date_input = input("Fecha inicial en formato YYYY-MM-DD: ").strip()
+    end_date_input = input("Fecha final en formato YYYY-MM-DD: ").strip()
+
+    if start_date_input == "" and end_date_input == "":
+        query = """
+            SELECT user_id,
+                   activity_type,
+                   event_id,
+                   event_name,
+                   attendance_status,
+                   attendance_timestamp
+            FROM participation_by_user_activity_type
+            WHERE user_id = %s
+              AND activity_type = %s
+            ORDER BY attendance_timestamp DESC;
+        """
+
+        rows = session.execute(query, (user_id, activity_type))
+
+    else:
+        start_date = _parse_date_input(start_date_input)
+        end_date = _parse_date_input(end_date_input)
+
+        if start_date is None or end_date is None:
+            return
+
+        if start_date > end_date:
+            print("\nLa fecha inicial no puede ser mayor que la fecha final.\n")
+            return
+
+        start_datetime = datetime.combine(start_date, datetime.min.time())
+        end_datetime = datetime.combine(end_date + timedelta(days=1), datetime.min.time())
+
+        query = """
+            SELECT user_id,
+                   activity_type,
+                   event_id,
+                   event_name,
+                   attendance_status,
+                   attendance_timestamp
+            FROM participation_by_user_activity_type
+            WHERE user_id = %s
+              AND activity_type = %s
+              AND attendance_timestamp >= %s
+              AND attendance_timestamp < %s
+            ORDER BY attendance_timestamp DESC;
+        """
+
+        rows = session.execute(query, (user_id, activity_type, start_datetime, end_datetime))
+
+    rows = list(rows)
+
+    if not rows:
+        print(f"\nNo se encontró participación para el usuario {user_id} en la actividad '{activity_type}'.\n")
+        return
+
+    print(f"\nParticipación histórica del usuario {user_id} en actividades de tipo '{activity_type}':")
+    print("-" * 80)
+
+    for row in rows:
+        print(f"Usuario: {row.user_id}")
+        print(f"Tipo de actividad: {row.activity_type}")
+        print(f"Evento: {row.event_name}")
+        print(f"ID del evento: {row.event_id}")
+        print(f"Estado de asistencia: {row.attendance_status}")
+        print(f"Fecha de asistencia: {row.attendance_timestamp}")
         print("-" * 80)
