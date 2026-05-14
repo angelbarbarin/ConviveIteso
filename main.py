@@ -5,7 +5,8 @@ from Queries.cassandra_queries import (
     cassandra_r4_historial_uso_espacio,
     cassandra_r5_actividad_usuario_rango_fechas,
     cassandra_r6_ultimos_checkins_espacio,
-    cassandra_r7_historial_reservaciones_canceladas
+    cassandra_r7_historial_reservaciones_canceladas,
+    cassandra_r8_participacion_usuario_tipo_actividad
 )
 
 from connect import (
@@ -40,7 +41,8 @@ def menu_historial():
     print("1. Historial reciente de asistencia de un usuario")
     print("2. Historial reciente de reservaciones de un usuario")
     print("3. Actividad de usuario por rango de fechas")
-    print("4. Participación por tipo de actividad")
+    print("4. Historial de reservaciones canceladas")
+    print("5. Participación por tipo de actividad")
     print("0. Volver")
 
 
@@ -119,6 +121,8 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
                 cassandra_r5_actividad_usuario_rango_fechas(cassandra_session)
             elif opcion == "4":
                 cassandra_r7_historial_reservaciones_canceladas(cassandra_session)
+            elif opcion == "5":
+                cassandra_r8_participacion_usuario_tipo_actividad(cassandra_session)
             else:
                 ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
 
