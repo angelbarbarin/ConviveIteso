@@ -1,6 +1,7 @@
 from Queries.cassandra_queries import (
     cassandra_r1_historial_asistencia_usuario,
-    cassandra_r2_historial_reservaciones_usuario
+    cassandra_r2_historial_reservaciones_usuario,
+    cassandra_r3_asistencias_por_evento
 )
 
 from connect import (
@@ -110,6 +111,11 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
                 cassandra_r1_historial_asistencia_usuario(cassandra_session)
             elif opcion == "2":
                 cassandra_r2_historial_reservaciones_usuario(cassandra_session)
+            else:
+                ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
+        elif tipo == "eventos":
+            if opcion == "1":
+                cassandra_r3_asistencias_por_evento(cassandra_session)
             else:
                 ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
         # =========================
