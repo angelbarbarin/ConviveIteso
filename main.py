@@ -1,3 +1,7 @@
+from Queries.cassandra_queries import (
+    cassandra_r1_historial_asistencia_usuario
+)
+
 from connect import (
     get_mongo_db,
     get_cassandra_session,
@@ -97,11 +101,18 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
 
         if opcion == "0":
             break
-
+        # =========================
+        # CONSULTAS CASSANDRA EN HISTORIAL
+        # =========================
+        if tipo == "historial":
+            if opcion == "1":
+                cassandra_r1_historial_asistencia_usuario(cassandra_session)
+            else:
+                ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
         # =========================
         # CONSULTAS DGRAPH EN GRAFO
         # =========================
-        if tipo == "grafo":
+        elif tipo == "grafo":
             if opcion == "1":
                 dgraph_r1_users_coinciden(dgraph_client)
             elif opcion == "2":
