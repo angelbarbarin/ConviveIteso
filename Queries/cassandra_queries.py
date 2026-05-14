@@ -66,3 +66,52 @@ def cassandra_r1_historial_asistencia_usuario(session):
         print(f"Fecha de asistencia: {row.attendance_timestamp}")
         print(f"Estado de asistencia: {row.attendance_status}")
         print("-" * 80)
+
+def cassandra_r2_historial_reservaciones_usuario(session):
+    """
+    Requerimiento 2:
+    Consultar el historial reciente de reservaciones realizadas por un usuario específico,
+    ordenado de la reservación más reciente a la más antigua, limitado a 20 registros.
+    """
+
+    _ensure_cassandra_keyspace(session)
+
+    print("\n===== Cassandra R2: Historial reciente de reservaciones de un usuario =====")
+    user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
+
+    user_id = _normalize_user_id(user_input)
+
+    query = """
+        SELECT user_id,
+               reservation_timestamp,
+               reservation_id,
+               space_id,
+               space_name,
+               space_type,
+               reservation_status,
+               usage_date
+        FROM reservations_by_user
+        WHERE user_id = %s
+        ORDER BY reservation_timestamp DESC
+        LIMIT 20;
+    """
+
+    rows = session.execute(query, (user_id,))
+    rows = list(rows)
+
+    if not rows:
+        print(f"\nNo se encontraron reservaciones para el usuario {user_id}.\n")
+        return
+
+    print(f"\nHistorial reciente de reservaciones para el usuario {user_id}:")
+    print("-" * 80)
+
+    for row in rows:
+        print(f"ID de reservación: {row.reservation_id}")
+        print(f"Espacio: {row.space_name}")
+        print(f"ID del espacio: {row.space_id}")
+        print(f"Tipo de espacio: {row.space_type}")
+        print(f"Fecha de reservación: {row.reservation_timestamp}")
+        print(f"Fecha de uso: {row.usage_date}")
+        print(f"Estado de reservación: {row.reservation_status}")
+        print("-" * 80)
