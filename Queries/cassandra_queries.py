@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 def _ensure_cassandra_keyspace(session):
     """
     Asegura que la sesión esté trabajando sobre el keyspace correcto.
@@ -270,4 +270,77 @@ def cassandra_r4_historial_uso_espacio(session):
             print("Evento relacionado: No aplica")
 
         print(f"Estado: {row.status}")
+        print("-" * 80)
+def _generate_date_range(start_date, end_date):
+    """
+    Genera todas las fechas entre start_date y end_date, incluyendo ambas.
+    """
+    current_date = start_date
+
+    while current_date <= end_date:
+        yield current_date
+        current_date += timedelta(days=1)
+
+
+def cassandra_r5_actividad_usuario_rango_fechas(session):
+    """
+    Requerimiento 5:
+    Consultar la actividad de un usuario dentro de un rango de fechas,
+    incluyendo asistencias, reservaciones y cancelaciones,
+    ordenada de la más reciente a la más antigua.
+    """
+
+    _ensure_cassandra_keyspace(session)
+
+    print("\n===== Cassandra R5: Actividad de usuario por rango de fechas =====")
+
+    user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
+    start_date_input = input("Ingresa la fecha inicial en formato YYYY-MM-DD: ")
+    end_date_input = input("Ingresa la fecha final en formato YYYY-MM-DD: ")
+
+    user_id = _normalize_user_id(user_input)
+    start_date = _parse_date_input(start_date_input)
+    end_date = _parse_date_input(end_date_input)
+
+    if start_date is None or end_date is None:
+        return
+
+    if start_date > end_date:
+        print("\nLa fecha inicial no puede ser mayor que la fecha final.\n")
+        return
+
+    query = """
+        SELECT user_id,
+               activity_date,
+               activity_timestamp,
+               activity_type,
+               related_id,
+               details
+        FROM user_activity_by_date
+        WHERE user_id = %s
+          AND activity_date = %s
+        ORDER BY activity_timestamp DESC;
+    """
+
+    all_rows = []
+
+    for activity_date in _generate_date_range(start_date, end_date):
+        rows = session.execute(query, (user_id, activity_date))
+        all_rows.extend(list(rows))
+
+    if not all_rows:
+        print(f"\nNo se encontró actividad para el usuario {user_id} entre {start_date} y {end_date}.\n")
+        return
+
+    all_rows.sort(key=lambda row: row.activity_timestamp, reverse=True)
+
+    print(f"\nActividad del usuario {user_id} entre {start_date} y {end_date}:")
+    print("-" * 80)
+
+    for row in all_rows:
+        print(f"Fecha de actividad: {row.activity_date}")
+        print(f"Hora de actividad: {row.activity_timestamp}")
+        print(f"Tipo de actividad: {row.activity_type}")
+        print(f"ID relacionado: {row.related_id}")
+        print(f"Detalles: {row.details}")
         print("-" * 80)
