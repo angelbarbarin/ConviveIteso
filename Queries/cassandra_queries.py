@@ -344,3 +344,48 @@ def cassandra_r5_actividad_usuario_rango_fechas(session):
         print(f"ID relacionado: {row.related_id}")
         print(f"Detalles: {row.details}")
         print("-" * 80)
+def cassandra_r6_ultimos_checkins_espacio(session):
+    """
+    Requerimiento 6:
+    Consultar los últimos 10 check-ins registrados en un espacio universitario específico,
+    ordenados de la fecha más reciente a la más antigua.
+    """
+
+    _ensure_cassandra_keyspace(session)
+
+    print("\n===== Cassandra R6: Últimos 10 check-ins en un espacio =====")
+    space_input = input("Ingresa el space_id del espacio, por ejemplo SPC001 o 1: ")
+
+    space_id = _normalize_space_id(space_input)
+
+    query = """
+        SELECT space_id,
+               space_name,
+               checkin_timestamp,
+               user_id,
+               activity_context,
+               status
+        FROM checkins_by_space
+        WHERE space_id = %s
+        ORDER BY checkin_timestamp DESC
+        LIMIT 10;
+    """
+
+    rows = session.execute(query, (space_id,))
+    rows = list(rows)
+
+    if not rows:
+        print(f"\nNo se encontraron check-ins para el espacio {space_id}.\n")
+        return
+
+    print(f"\nÚltimos 10 check-ins registrados en el espacio {space_id}:")
+    print("-" * 80)
+
+    for row in rows:
+        print(f"Espacio: {row.space_name}")
+        print(f"ID del espacio: {row.space_id}")
+        print(f"Fecha de check-in: {row.checkin_timestamp}")
+        print(f"Usuario: {row.user_id}")
+        print(f"Contexto de actividad: {row.activity_context}")
+        print(f"Estado: {row.status}")
+        print("-" * 80)

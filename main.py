@@ -3,7 +3,8 @@ from Queries.cassandra_queries import (
     cassandra_r2_historial_reservaciones_usuario,
     cassandra_r3_asistencias_por_evento,
     cassandra_r4_historial_uso_espacio,
-    cassandra_r5_actividad_usuario_rango_fechas
+    cassandra_r5_actividad_usuario_rango_fechas,
+    cassandra_r6_ultimos_checkins_espacio
 )
 
 from connect import (
@@ -127,6 +128,8 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
         elif tipo == "espacios":
             if opcion == "3":
                 cassandra_r4_historial_uso_espacio(cassandra_session)
+            elif opcion == "4":
+                cassandra_r6_ultimos_checkins_espacio(cassandra_session)
             else:
                 ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
         # =========================
