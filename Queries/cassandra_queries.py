@@ -195,3 +195,79 @@ def cassandra_r3_asistencias_por_evento(session):
         print(f"Hora de asistencia: {row.attendance_timestamp}")
         print(f"Estado de asistencia: {row.attendance_status}")
         print("-" * 80)
+def _normalize_space_id(space_input):
+    """
+    Normaliza el space_id.
+    Si el usuario escribe SPC001, se deja igual.
+    Si escribe solo un número, se convierte a SPC001.
+    """
+    space_input = space_input.strip().upper()
+
+    if space_input.startswith("SPC"):
+        return space_input
+
+    if space_input.isdigit():
+        return f"SPC{int(space_input):03d}"
+
+    return space_input
+
+
+def cassandra_r4_historial_uso_espacio(session):
+    """
+    Requerimiento 4:
+    Consultar el historial de uso de un espacio específico en una fecha determinada,
+    mostrando reservaciones y usos registrados en orden cronológico.
+    """
+
+    _ensure_cassandra_keyspace(session)
+
+    print("\n===== Cassandra R4: Historial de uso de un espacio universitario =====")
+    space_input = input("Ingresa el space_id del espacio, por ejemplo SPC001 o 1: ")
+    usage_date_input = input("Ingresa la fecha de uso en formato YYYY-MM-DD: ")
+
+    space_id = _normalize_space_id(space_input)
+    usage_date = _parse_date_input(usage_date_input)
+
+    if usage_date is None:
+        return
+
+    query = """
+        SELECT space_id,
+               space_name,
+               usage_date,
+               usage_timestamp,
+               user_id,
+               activity_type,
+               related_event_id,
+               status
+        FROM space_usage_by_space_date
+        WHERE space_id = %s
+          AND usage_date = %s
+        ORDER BY usage_timestamp ASC;
+    """
+
+    rows = session.execute(query, (space_id, usage_date))
+    rows = list(rows)
+
+    if not rows:
+        print(f"\nNo se encontraron registros de uso para el espacio {space_id} en la fecha {usage_date}.\n")
+        return
+
+    print(f"\nHistorial de uso del espacio {space_id} en la fecha {usage_date}:")
+    print("-" * 80)
+
+    for row in rows:
+        print(f"Espacio: {row.space_name}")
+        print(f"ID del espacio: {row.space_id}")
+        print(f"Fecha de uso: {row.usage_date}")
+        print(f"Hora de uso: {row.usage_timestamp}")
+        print(f"Usuario relacionado: {row.user_id}")
+        print(f"Tipo de actividad: {row.activity_type}")
+
+        if row.related_event_id:
+            print(f"Evento relacionado: {row.related_event_id}")
+        else:
+            print("Evento relacionado: No aplica")
+
+        print(f"Estado: {row.status}")
+        print("-" * 80)
