@@ -142,6 +142,8 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
                 mongo_r1_evento_especifico(mongo_db)
             if opcion == "2":
                 mongo_r2_eventos_por_tipo_y_fecha(mongo_db)
+            if opcion == "3":
+                mongo_r3_espacios_disponibles_para_reserva(mongo_db)
             if opcion == "4":
                 cassandra_r3_asistencias_por_evento(cassandra_session)
             else:
@@ -217,7 +219,7 @@ def main():
         elif opcion == "5":
             ejecutar_submenu("grafo", mongo_db, cassandra_session, dgraph_client)
         elif opcion == "0":
-            print("Saliendo del sistema Convive ITESO...")
+            print("Saliendo del sistema Reserva ITESO...")
             break
         else:
             print("Opción inválida. Intenta de nuevo.")
