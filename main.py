@@ -1,3 +1,9 @@
+from connect import (
+    get_mongo_db,
+    get_cassandra_session,
+    get_dgraph_client
+)
+
 from Queries.cassandra_queries import (
     cassandra_r1_historial_asistencia_usuario,
     cassandra_r2_historial_reservaciones_usuario,
@@ -9,10 +15,15 @@ from Queries.cassandra_queries import (
     cassandra_r8_participacion_usuario_tipo_actividad
 )
 
-from connect import (
-    get_mongo_db,
-    get_cassandra_session,
-    get_dgraph_client
+from Queries.mongo_queries import (
+    mongo_r1_evento_especifico,
+    mongo_r2_eventos_por_tipo_y_fecha,
+    mongo_r3_espacios_disponibles_para_reserva,
+    mongo_r4_reservaciones_espacio_fecha,
+    mongo_r5_eventos_por_organizador,
+    mongo_r6_total_eventos_por_tipo,
+    mongo_r7_total_reservaciones_por_tipo_espacio,
+    mongo_r8_eventos_mayor_demanda
 )
 
 from Queries.dgraph_queries import (
@@ -127,12 +138,20 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
                 ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
 
         elif tipo == "eventos":
+            if opcion == "1":
+                mongo_r1_evento_especifico(mongo_db)
+            if opcion == "2":
+                mongo_r2_eventos_por_tipo_y_fecha(mongo_db)
             if opcion == "4":
                 cassandra_r3_asistencias_por_evento(cassandra_session)
             else:
                 ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
 
         elif tipo == "espacios":
+            if opcion == "1":
+                mongo_r3_espacios_disponibles_para_reserva(mongo_db)
+            if opcion == "2":
+                mongo_r4_reservaciones_espacio_fecha(mongo_db)
             if opcion == "3":
                 cassandra_r4_historial_uso_espacio(cassandra_session)
             elif opcion == "4":
@@ -162,6 +181,12 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
         # CONSULTAS DGRAPH EN ANALÍTICAS
         # =========================
         elif tipo == "analiticas":
+            if opcion == "1":
+                mongo_r6_total_eventos_por_tipo(mongo_db)
+            if opcion == "2":
+                mongo_r7_total_reservaciones_por_tipo_espacio(mongo_db)
+            if opcion == "3":
+                mongo_r8_eventos_mayor_demanda(mongo_db)
             if opcion == "4":
                 dgraph_r6_organizadores_por_tipo_usuario(dgraph_client)
             elif opcion == "5":
