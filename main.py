@@ -38,7 +38,7 @@ from Queries.dgraph_queries import (
 )
 
 def mostrar_menu_principal():
-    print("\n===== CONVIVE ITESO - MENÚ PRINCIPAL =====")
+    print("\n===== RESERVA ITESO - MENÚ PRINCIPAL =====")
     print("1. Historial y actividad de usuarios")
     print("2. Consulta de eventos")
     print("3. Consulta de espacios y reservaciones")

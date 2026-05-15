@@ -1,4 +1,4 @@
-# ConviveITESO
+# Reserva Iteso
 
 Sistema multi-modelo para gestión de eventos universitarios utilizando **Cassandra, MongoDB y Dgraph**, desarrollado para el proyecto final de **Bases de Datos No Relacionales**.
 
@@ -12,7 +12,7 @@ Sistema multi-modelo para gestión de eventos universitarios utilizando **Cassan
 
 # Descripción del Proyecto
 
-ConviveITESO es una plataforma conceptual para administrar:
+ReservaITESO es una plataforma conceptual para administrar:
 
 - Eventos universitarios (académicos, culturales, deportivos y recreativos)
 - Reservación y uso de espacios dentro del campus
