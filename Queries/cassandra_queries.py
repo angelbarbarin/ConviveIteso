@@ -1,4 +1,14 @@
+# =========================================================
+# CONVIVE ITESO - CASSANDRA QUERIES
+# =========================================================
+
 from datetime import datetime, timedelta
+
+
+# =========================================================
+# UTILIDADES GENERALES CASSANDRA
+# =========================================================
+
 def _ensure_cassandra_keyspace(session):
     """
     Asegura que la sesión esté trabajando sobre el keyspace correcto.
@@ -8,8 +18,9 @@ def _ensure_cassandra_keyspace(session):
 
 def _normalize_user_id(user_input):
     """
-    Permite que el usuario escriba USER001 o solo 1.
-    Si escribe 1, se convierte a USER001.
+    Permite ingresar:
+    - USER001
+    - 1
     """
     user_input = user_input.strip().upper()
 
@@ -22,6 +33,136 @@ def _normalize_user_id(user_input):
     return user_input
 
 
+def _normalize_space_id(space_input):
+    """
+    Permite ingresar:
+    - SPC001
+    - 1
+    """
+    space_input = space_input.strip().upper()
+
+    if space_input.startswith("SPC"):
+        return space_input
+
+    if space_input.isdigit():
+        return f"SPC{int(space_input):03d}"
+
+    return space_input
+
+
+def _event_id_candidates(event_input):
+    """
+    Genera posibles formatos de event_id para evitar errores entre EVT001 y EVENT001.
+    """
+    event_input = event_input.strip().upper()
+    candidates = []
+
+    if not event_input:
+        return candidates
+
+    if event_input.startswith("EVT"):
+        candidates.append(event_input)
+        suffix = event_input.replace("EVT", "")
+        if suffix.isdigit():
+            candidates.append(f"EVENT{int(suffix):03d}")
+
+    elif event_input.startswith("EVENT"):
+        candidates.append(event_input)
+        suffix = event_input.replace("EVENT", "")
+        if suffix.isdigit():
+            candidates.append(f"EVT{int(suffix):03d}")
+
+    elif event_input.isdigit():
+        candidates.append(f"EVT{int(event_input):03d}")
+        candidates.append(f"EVENT{int(event_input):03d}")
+        candidates.append(event_input)
+
+    else:
+        candidates.append(event_input)
+
+    unique_candidates = []
+
+    for candidate in candidates:
+        if candidate not in unique_candidates:
+            unique_candidates.append(candidate)
+
+    return unique_candidates
+
+
+def _activity_type_candidates(activity_type_input):
+    """
+    Genera variantes del tipo de actividad para evitar fallos por mayúsculas/minúsculas.
+    """
+    activity_type_input = activity_type_input.strip()
+
+    candidates = [
+        activity_type_input,
+        activity_type_input.lower(),
+        activity_type_input.title(),
+        activity_type_input.upper()
+    ]
+
+    unique_candidates = []
+
+    for candidate in candidates:
+        if candidate and candidate not in unique_candidates:
+            unique_candidates.append(candidate)
+
+    return unique_candidates
+
+
+def _parse_date_input(date_input):
+    """
+    Convierte una fecha en formato YYYY-MM-DD a tipo date.
+    """
+    try:
+        return datetime.strptime(date_input.strip(), "%Y-%m-%d").date()
+    except ValueError:
+        print("\nFecha inválida. Usa el formato YYYY-MM-DD.")
+        print("Ejemplo válido: 2026-05-14\n")
+        return None
+
+
+def _generate_date_range(start_date, end_date):
+    """
+    Genera todas las fechas entre start_date y end_date, incluyendo ambas.
+    """
+    current_date = start_date
+
+    while current_date <= end_date:
+        yield current_date
+        current_date += timedelta(days=1)
+
+
+def _print_query_header(code, title, description, examples=None):
+    """
+    Imprime un encabezado user friendly para cada consulta.
+    """
+    print(f"\n===== {code} =====")
+    print(title)
+
+    if description:
+        print(f"\n{description}")
+
+    if examples:
+        print(examples)
+
+    print()
+
+
+def _print_separator():
+    print("--------------------------------------------------")
+
+
+def _print_end():
+    print("Consulta finalizada.")
+
+
+# =========================================================
+# CASSANDRA R1
+# Historial reciente de asistencia de un usuario
+# =========================================================
+
 def cassandra_r1_historial_asistencia_usuario(session):
     """
     Requerimiento 1:
@@ -31,9 +172,14 @@ def cassandra_r1_historial_asistencia_usuario(session):
 
     _ensure_cassandra_keyspace(session)
 
-    print("\n===== Cassandra R1: Historial reciente de asistencia de un usuario =====")
-    user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
+    _print_query_header(
+        "CASSANDRA R1",
+        "Historial reciente de asistencia de un usuario",
+        "Esta consulta muestra los últimos eventos a los que asistió un usuario.",
+        "Puedes buscar por código completo o solo por número.\nEjemplos válidos: USER001, 1"
+    )
 
+    user_input = input("Ingresa el usuario: ").strip()
     user_id = _normalize_user_id(user_input)
 
     query = """
@@ -49,24 +195,33 @@ def cassandra_r1_historial_asistencia_usuario(session):
         LIMIT 20;
     """
 
-    rows = session.execute(query, (user_id,))
-
-    rows = list(rows)
+    rows = list(session.execute(query, (user_id,)))
 
     if not rows:
-        print(f"\nNo se encontraron registros de asistencia para el usuario {user_id}.\n")
+        print(f"No se encontraron registros de asistencia para el usuario {user_id}.")
         return
 
-    print(f"\nHistorial reciente de asistencia para el usuario {user_id}:")
-    print("-" * 80)
+    print("\n===== HISTORIAL RECIENTE DE ASISTENCIA =====\n")
+    print(f"Usuario consultado: {user_id}")
+    print(f"Registros encontrados: {len(rows)}\n")
 
-    for row in rows:
-        print(f"Evento: {row.event_name}")
+    for index, row in enumerate(rows, start=1):
+        _print_separator()
+        print(f"{index}. Evento: {row.event_name}")
         print(f"ID del evento: {row.event_id}")
         print(f"Tipo de evento: {row.event_type}")
         print(f"Fecha de asistencia: {row.attendance_timestamp}")
-        print(f"Estado de asistencia: {row.attendance_status}")
-        print("-" * 80)
+        print(f"Estado: {row.attendance_status}")
+        _print_separator()
+        print()
+
+    _print_end()
+
+
+# =========================================================
+# CASSANDRA R2
+# Historial reciente de reservaciones de un usuario
+# =========================================================
 
 def cassandra_r2_historial_reservaciones_usuario(session):
     """
@@ -77,9 +232,14 @@ def cassandra_r2_historial_reservaciones_usuario(session):
 
     _ensure_cassandra_keyspace(session)
 
-    print("\n===== Cassandra R2: Historial reciente de reservaciones de un usuario =====")
-    user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
+    _print_query_header(
+        "CASSANDRA R2",
+        "Historial reciente de reservaciones de un usuario",
+        "Esta consulta muestra las últimas reservaciones realizadas por un usuario.",
+        "Sirve para revisar qué espacios ha reservado y el estado de cada reservación.\nEjemplos válidos: USER001, 1"
+    )
 
+    user_input = input("Ingresa el usuario: ").strip()
     user_id = _normalize_user_id(user_input)
 
     query = """
@@ -97,54 +257,34 @@ def cassandra_r2_historial_reservaciones_usuario(session):
         LIMIT 20;
     """
 
-    rows = session.execute(query, (user_id,))
-    rows = list(rows)
+    rows = list(session.execute(query, (user_id,)))
 
     if not rows:
-        print(f"\nNo se encontraron reservaciones para el usuario {user_id}.\n")
+        print(f"No se encontraron reservaciones para el usuario {user_id}.")
         return
 
-    print(f"\nHistorial reciente de reservaciones para el usuario {user_id}:")
-    print("-" * 80)
+    print("\n===== HISTORIAL RECIENTE DE RESERVACIONES =====\n")
+    print(f"Usuario consultado: {user_id}")
+    print(f"Reservaciones encontradas: {len(rows)}\n")
 
-    for row in rows:
-        print(f"ID de reservación: {row.reservation_id}")
-        print(f"Espacio: {row.space_name}")
-        print(f"ID del espacio: {row.space_id}")
+    for index, row in enumerate(rows, start=1):
+        _print_separator()
+        print(f"{index}. Reservación: {row.reservation_id}")
+        print(f"Espacio: {row.space_name} ({row.space_id})")
         print(f"Tipo de espacio: {row.space_type}")
         print(f"Fecha de reservación: {row.reservation_timestamp}")
         print(f"Fecha de uso: {row.usage_date}")
-        print(f"Estado de reservación: {row.reservation_status}")
-        print("-" * 80)
-        
-def _normalize_event_id(event_input):
-    """
-    Normaliza el event_id.
-    Si el usuario escribe EVENT001 o EVT001, se deja igual.
-    Si escribe solo un número, se convierte a EVENT001.
-    """
-    event_input = event_input.strip().upper()
+        print(f"Estado: {row.reservation_status}")
+        _print_separator()
+        print()
 
-    if event_input.startswith("EVENT") or event_input.startswith("EVT"):
-        return event_input
-
-    if event_input.isdigit():
-        return f"EVENT{int(event_input):03d}"
-
-    return event_input
+    _print_end()
 
 
-def _parse_date_input(date_input):
-    """
-    Convierte una fecha escrita como texto en formato YYYY-MM-DD
-    a un objeto date compatible con Cassandra.
-    """
-    try:
-        return datetime.strptime(date_input.strip(), "%Y-%m-%d").date()
-    except ValueError:
-        print("\nFormato de fecha inválido. Usa el formato YYYY-MM-DD, por ejemplo 2026-05-14.\n")
-        return None
-
+# =========================================================
+# CASSANDRA R3
+# Historial de asistencias por evento
+# =========================================================
 
 def cassandra_r3_asistencias_por_evento(session):
     """
@@ -155,11 +295,16 @@ def cassandra_r3_asistencias_por_evento(session):
 
     _ensure_cassandra_keyspace(session)
 
-    print("\n===== Cassandra R3: Historial de asistencias por evento =====")
-    event_input = input("Ingresa el event_id del evento, por ejemplo EVENT001: ")
-    event_date_input = input("Ingresa la fecha del evento en formato YYYY-MM-DD: ")
+    _print_query_header(
+        "CASSANDRA R3",
+        "Historial de asistencias por evento",
+        "Esta consulta muestra los usuarios que registraron asistencia a un evento en una fecha específica.",
+        "Ejemplos de evento: EVT001, EVENT001, 1\nEjemplo de fecha: 2026-05-14"
+    )
 
-    event_id = _normalize_event_id(event_input)
+    event_input = input("Ingresa el evento: ").strip()
+    event_date_input = input("Ingresa la fecha del evento: ").strip()
+
     event_date = _parse_date_input(event_date_input)
 
     if event_date is None:
@@ -178,41 +323,44 @@ def cassandra_r3_asistencias_por_evento(session):
         ORDER BY attendance_timestamp ASC;
     """
 
-    rows = session.execute(query, (event_id, event_date))
-    rows = list(rows)
+    rows = []
+    selected_event_id = None
+
+    for event_id in _event_id_candidates(event_input):
+        rows = list(session.execute(query, (event_id, event_date)))
+
+        if rows:
+            selected_event_id = event_id
+            break
 
     if not rows:
-        print(f"\nNo se encontraron asistencias para el evento {event_id} en la fecha {event_date}.\n")
+        print(f"No se encontraron asistencias para el evento ingresado en la fecha {event_date}.")
+        print("Revisa que el event_id y la fecha existan en tus CSV.")
         return
 
-    print(f"\nHistorial de asistencias para el evento {event_id} en la fecha {event_date}:")
-    print("-" * 80)
+    print("\n===== ASISTENCIAS REGISTRADAS POR EVENTO =====\n")
+    print(f"Evento consultado: {selected_event_id}")
+    print(f"Fecha consultada: {event_date}")
+    print(f"Asistencias encontradas: {len(rows)}\n")
 
-    for row in rows:
+    for index, row in enumerate(rows, start=1):
+        _print_separator()
+        print(f"{index}. Usuario: {row.user_id}")
         print(f"Evento: {row.event_name}")
         print(f"ID del evento: {row.event_id}")
         print(f"Fecha del evento: {row.event_date}")
-        print(f"Usuario: {row.user_id}")
         print(f"Hora de asistencia: {row.attendance_timestamp}")
-        print(f"Estado de asistencia: {row.attendance_status}")
-        print("-" * 80)
+        print(f"Estado: {row.attendance_status}")
+        _print_separator()
+        print()
 
-def _normalize_space_id(space_input):
-    """
-    Normaliza el space_id.
-    Si el usuario escribe SPC001, se deja igual.
-    Si escribe solo un número, se convierte a SPC001.
-    """
-    space_input = space_input.strip().upper()
+    _print_end()
 
-    if space_input.startswith("SPC"):
-        return space_input
 
-    if space_input.isdigit():
-        return f"SPC{int(space_input):03d}"
-
-    return space_input
-
+# =========================================================
+# CASSANDRA R4
+# Historial de uso de un espacio universitario
+# =========================================================
 
 def cassandra_r4_historial_uso_espacio(session):
     """
@@ -223,9 +371,15 @@ def cassandra_r4_historial_uso_espacio(session):
 
     _ensure_cassandra_keyspace(session)
 
-    print("\n===== Cassandra R4: Historial de uso de un espacio universitario =====")
-    space_input = input("Ingresa el space_id del espacio, por ejemplo SPC001 o 1: ")
-    usage_date_input = input("Ingresa la fecha de uso en formato YYYY-MM-DD: ")
+    _print_query_header(
+        "CASSANDRA R4",
+        "Historial de uso de un espacio universitario",
+        "Esta consulta muestra cómo se utilizó un espacio en una fecha específica.",
+        "Incluye reservaciones, usuarios relacionados, tipo de actividad y estado.\nEjemplos de espacio: SPC001, 1\nEjemplo de fecha: 2026-05-14"
+    )
+
+    space_input = input("Ingresa el espacio: ").strip()
+    usage_date_input = input("Ingresa la fecha de uso: ").strip()
 
     space_id = _normalize_space_id(space_input)
     usage_date = _parse_date_input(usage_date_input)
@@ -248,42 +402,38 @@ def cassandra_r4_historial_uso_espacio(session):
         ORDER BY usage_timestamp ASC;
     """
 
-    rows = session.execute(query, (space_id, usage_date))
-    rows = list(rows)
+    rows = list(session.execute(query, (space_id, usage_date)))
 
     if not rows:
-        print(f"\nNo se encontraron registros de uso para el espacio {space_id} en la fecha {usage_date}.\n")
+        print(f"No se encontraron registros de uso para el espacio {space_id} en la fecha {usage_date}.")
         return
 
-    print(f"\nHistorial de uso del espacio {space_id} en la fecha {usage_date}:")
-    print("-" * 80)
+    print("\n===== HISTORIAL DE USO DEL ESPACIO =====\n")
+    print(f"Espacio consultado: {space_id}")
+    print(f"Fecha consultada: {usage_date}")
+    print(f"Registros encontrados: {len(rows)}\n")
 
-    for row in rows:
-        print(f"Espacio: {row.space_name}")
-        print(f"ID del espacio: {row.space_id}")
+    for index, row in enumerate(rows, start=1):
+        related_event = row.related_event_id if row.related_event_id else "No aplica"
+
+        _print_separator()
+        print(f"{index}. Espacio: {row.space_name} ({row.space_id})")
         print(f"Fecha de uso: {row.usage_date}")
         print(f"Hora de uso: {row.usage_timestamp}")
         print(f"Usuario relacionado: {row.user_id}")
         print(f"Tipo de actividad: {row.activity_type}")
-
-        if row.related_event_id:
-            print(f"Evento relacionado: {row.related_event_id}")
-        else:
-            print("Evento relacionado: No aplica")
-
+        print(f"Evento relacionado: {related_event}")
         print(f"Estado: {row.status}")
-        print("-" * 80)
+        _print_separator()
+        print()
 
-def _generate_date_range(start_date, end_date):
-    """
-    Genera todas las fechas entre start_date y end_date, incluyendo ambas.
-    """
-    current_date = start_date
+    _print_end()
 
-    while current_date <= end_date:
-        yield current_date
-        current_date += timedelta(days=1)
 
+# =========================================================
+# CASSANDRA R5
+# Actividad de usuario por rango de fechas
+# =========================================================
 
 def cassandra_r5_actividad_usuario_rango_fechas(session):
     """
@@ -295,11 +445,16 @@ def cassandra_r5_actividad_usuario_rango_fechas(session):
 
     _ensure_cassandra_keyspace(session)
 
-    print("\n===== Cassandra R5: Actividad de usuario por rango de fechas =====")
+    _print_query_header(
+        "CASSANDRA R5",
+        "Actividad de usuario por rango de fechas",
+        "Esta consulta muestra la actividad general de un usuario dentro de un periodo.",
+        "Incluye asistencias, reservaciones y cancelaciones.\nEjemplos de usuario: USER001, 1\nEjemplo de fechas: 2026-05-01 a 2026-05-15"
+    )
 
-    user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
-    start_date_input = input("Ingresa la fecha inicial en formato YYYY-MM-DD: ")
-    end_date_input = input("Ingresa la fecha final en formato YYYY-MM-DD: ")
+    user_input = input("Ingresa el usuario: ").strip()
+    start_date_input = input("Ingresa la fecha inicial: ").strip()
+    end_date_input = input("Ingresa la fecha final: ").strip()
 
     user_id = _normalize_user_id(user_input)
     start_date = _parse_date_input(start_date_input)
@@ -309,7 +464,7 @@ def cassandra_r5_actividad_usuario_rango_fechas(session):
         return
 
     if start_date > end_date:
-        print("\nLa fecha inicial no puede ser mayor que la fecha final.\n")
+        print("La fecha inicial no puede ser mayor que la fecha final.")
         return
 
     query = """
@@ -332,21 +487,33 @@ def cassandra_r5_actividad_usuario_rango_fechas(session):
         all_rows.extend(list(rows))
 
     if not all_rows:
-        print(f"\nNo se encontró actividad para el usuario {user_id} entre {start_date} y {end_date}.\n")
+        print(f"No se encontró actividad para el usuario {user_id} entre {start_date} y {end_date}.")
         return
 
     all_rows.sort(key=lambda row: row.activity_timestamp, reverse=True)
 
-    print(f"\nActividad del usuario {user_id} entre {start_date} y {end_date}:")
-    print("-" * 80)
+    print("\n===== ACTIVIDAD DEL USUARIO POR RANGO DE FECHAS =====\n")
+    print(f"Usuario consultado: {user_id}")
+    print(f"Periodo consultado: {start_date} a {end_date}")
+    print(f"Actividades encontradas: {len(all_rows)}\n")
 
-    for row in all_rows:
-        print(f"Fecha de actividad: {row.activity_date}")
-        print(f"Hora de actividad: {row.activity_timestamp}")
-        print(f"Tipo de actividad: {row.activity_type}")
+    for index, row in enumerate(all_rows, start=1):
+        _print_separator()
+        print(f"{index}. Tipo de actividad: {row.activity_type}")
+        print(f"Fecha: {row.activity_date}")
+        print(f"Hora: {row.activity_timestamp}")
         print(f"ID relacionado: {row.related_id}")
         print(f"Detalles: {row.details}")
-        print("-" * 80)
+        _print_separator()
+        print()
+
+    _print_end()
+
+
+# =========================================================
+# CASSANDRA R6
+# Últimos 10 check-ins en un espacio
+# =========================================================
 
 def cassandra_r6_ultimos_checkins_espacio(session):
     """
@@ -357,9 +524,14 @@ def cassandra_r6_ultimos_checkins_espacio(session):
 
     _ensure_cassandra_keyspace(session)
 
-    print("\n===== Cassandra R6: Últimos 10 check-ins en un espacio =====")
-    space_input = input("Ingresa el space_id del espacio, por ejemplo SPC001 o 1: ")
+    _print_query_header(
+        "CASSANDRA R6",
+        "Últimos 10 check-ins en un espacio",
+        "Esta consulta muestra los registros más recientes de check-in en un espacio universitario.",
+        "Sirve para revisar actividad reciente en salas, auditorios o espacios.\nEjemplos válidos: SPC001, 1"
+    )
 
+    space_input = input("Ingresa el espacio: ").strip()
     space_id = _normalize_space_id(space_input)
 
     query = """
@@ -375,24 +547,33 @@ def cassandra_r6_ultimos_checkins_espacio(session):
         LIMIT 10;
     """
 
-    rows = session.execute(query, (space_id,))
-    rows = list(rows)
+    rows = list(session.execute(query, (space_id,)))
 
     if not rows:
-        print(f"\nNo se encontraron check-ins para el espacio {space_id}.\n")
+        print(f"No se encontraron check-ins para el espacio {space_id}.")
         return
 
-    print(f"\nÚltimos 10 check-ins registrados en el espacio {space_id}:")
-    print("-" * 80)
+    print("\n===== ÚLTIMOS CHECK-INS DEL ESPACIO =====\n")
+    print(f"Espacio consultado: {space_id}")
+    print(f"Check-ins encontrados: {len(rows)}\n")
 
-    for row in rows:
-        print(f"Espacio: {row.space_name}")
-        print(f"ID del espacio: {row.space_id}")
-        print(f"Fecha de check-in: {row.checkin_timestamp}")
+    for index, row in enumerate(rows, start=1):
+        _print_separator()
+        print(f"{index}. Espacio: {row.space_name} ({row.space_id})")
         print(f"Usuario: {row.user_id}")
-        print(f"Contexto de actividad: {row.activity_context}")
+        print(f"Fecha de check-in: {row.checkin_timestamp}")
+        print(f"Contexto: {row.activity_context}")
         print(f"Estado: {row.status}")
-        print("-" * 80)
+        _print_separator()
+        print()
+
+    _print_end()
+
+
+# =========================================================
+# CASSANDRA R7
+# Historial de reservaciones canceladas
+# =========================================================
 
 def cassandra_r7_historial_reservaciones_canceladas(session):
     """
@@ -404,14 +585,24 @@ def cassandra_r7_historial_reservaciones_canceladas(session):
 
     _ensure_cassandra_keyspace(session)
 
-    print("\n===== Cassandra R7: Historial de reservaciones canceladas =====")
-    print("1. Consultar cancelaciones por usuario")
-    print("2. Consultar cancelaciones por espacio")
+    _print_query_header(
+        "CASSANDRA R7",
+        "Historial de reservaciones canceladas",
+        "Esta consulta permite revisar cancelaciones por usuario o por espacio.",
+        "Elige la forma de búsqueda que necesitas."
+    )
+
+    print("1. Buscar cancelaciones por usuario")
+    print("2. Buscar cancelaciones por espacio")
+    print("0. Volver\n")
 
     opcion = input("Selecciona una opción: ").strip()
 
+    if opcion == "0":
+        return
+
     if opcion == "1":
-        user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
+        user_input = input("Ingresa el usuario, por ejemplo USER001 o 1: ").strip()
         user_id = _normalize_user_id(user_input)
 
         query = """
@@ -427,13 +618,11 @@ def cassandra_r7_historial_reservaciones_canceladas(session):
             ORDER BY cancellation_timestamp DESC;
         """
 
-        rows = session.execute(query, (user_id,))
-        rows = list(rows)
-
-        titulo = f"Reservaciones canceladas del usuario {user_id}"
+        rows = list(session.execute(query, (user_id,)))
+        title = f"Reservaciones canceladas del usuario {user_id}"
 
     elif opcion == "2":
-        space_input = input("Ingresa el space_id del espacio, por ejemplo SPC001 o 1: ")
+        space_input = input("Ingresa el espacio, por ejemplo SPC001 o 1: ").strip()
         space_id = _normalize_space_id(space_input)
 
         query = """
@@ -449,36 +638,43 @@ def cassandra_r7_historial_reservaciones_canceladas(session):
             ORDER BY cancellation_timestamp DESC;
         """
 
-        rows = session.execute(query, (space_id,))
-        rows = list(rows)
-
-        titulo = f"Reservaciones canceladas del espacio {space_id}"
+        rows = list(session.execute(query, (space_id,)))
+        title = f"Reservaciones canceladas del espacio {space_id}"
 
     else:
-        print("\nOpción inválida. Intenta de nuevo.\n")
+        print("Opción inválida. Intenta de nuevo.")
         return
 
     rows = [
         row for row in rows
-        if str(row.reservation_status).lower() == "cancelled"
+        if str(row.reservation_status).strip().lower() == "cancelled"
     ]
 
     if not rows:
-        print("\nNo se encontraron reservaciones canceladas para la búsqueda seleccionada.\n")
+        print("No se encontraron reservaciones canceladas para la búsqueda seleccionada.")
         return
 
-    print(f"\n{titulo}:")
-    print("-" * 80)
+    print(f"\n===== {title.upper()} =====\n")
+    print(f"Cancelaciones encontradas: {len(rows)}\n")
 
-    for row in rows:
-        print(f"ID de reservación: {row.reservation_id}")
+    for index, row in enumerate(rows, start=1):
+        _print_separator()
+        print(f"{index}. Reservación: {row.reservation_id}")
         print(f"Usuario: {row.user_id}")
-        print(f"Espacio: {row.space_name}")
-        print(f"ID del espacio: {row.space_id}")
+        print(f"Espacio: {row.space_name} ({row.space_id})")
         print(f"Fecha de cancelación: {row.cancellation_timestamp}")
-        print(f"Estado de reservación: {row.reservation_status}")
-        print(f"Motivo de cancelación: {row.cancellation_reason}")
-        print("-" * 80)
+        print(f"Estado: {row.reservation_status}")
+        print(f"Motivo: {row.cancellation_reason}")
+        _print_separator()
+        print()
+
+    _print_end()
+
+
+# =========================================================
+# CASSANDRA R8
+# Historial de participación de usuario por tipo de actividad
+# =========================================================
 
 def cassandra_r8_participacion_usuario_tipo_actividad(session):
     """
@@ -489,21 +685,32 @@ def cassandra_r8_participacion_usuario_tipo_actividad(session):
 
     _ensure_cassandra_keyspace(session)
 
-    print("\n===== Cassandra R8: Participación de usuario por tipo de actividad =====")
+    _print_query_header(
+        "CASSANDRA R8",
+        "Participación de usuario por tipo de actividad",
+        "Esta consulta muestra la participación histórica de un usuario en un tipo de actividad.",
+        "Puedes filtrar por actividad y, si quieres, por rango de fechas.\nEjemplos de usuario: USER001, 1\nEjemplos de actividad: conferencia, taller, deporte, cultura"
+    )
 
-    user_input = input("Ingresa el user_id del usuario, por ejemplo USER001 o 1: ")
-    activity_type_input = input("Ingresa el tipo de actividad, por ejemplo conferencia, taller, deporte, cultura: ")
+    user_input = input("Ingresa el usuario: ").strip()
+    activity_type_input = input("Ingresa el tipo de actividad: ").strip()
 
     user_id = _normalize_user_id(user_input)
-    activity_type = activity_type_input.strip().lower()
+    activity_candidates = _activity_type_candidates(activity_type_input)
 
     print("\nRango de fechas opcional.")
-    print("Si no quieres filtrar por fechas, presiona Enter en ambas preguntas.")
+    print("Si quieres ver todo el historial, presiona Enter en ambas preguntas.\n")
 
-    start_date_input = input("Fecha inicial en formato YYYY-MM-DD: ").strip()
-    end_date_input = input("Fecha final en formato YYYY-MM-DD: ").strip()
+    start_date_input = input("Fecha inicial: ").strip()
+    end_date_input = input("Fecha final: ").strip()
 
-    if start_date_input == "" and end_date_input == "":
+    use_date_range = start_date_input != "" or end_date_input != ""
+
+    if use_date_range and (start_date_input == "" or end_date_input == ""):
+        print("Para filtrar por rango debes ingresar fecha inicial y fecha final.")
+        return
+
+    if not use_date_range:
         query = """
             SELECT user_id,
                    activity_type,
@@ -517,7 +724,15 @@ def cassandra_r8_participacion_usuario_tipo_actividad(session):
             ORDER BY attendance_timestamp DESC;
         """
 
-        rows = session.execute(query, (user_id, activity_type))
+        rows = []
+        selected_activity_type = None
+
+        for activity_type in activity_candidates:
+            rows = list(session.execute(query, (user_id, activity_type)))
+
+            if rows:
+                selected_activity_type = activity_type
+                break
 
     else:
         start_date = _parse_date_input(start_date_input)
@@ -527,7 +742,7 @@ def cassandra_r8_participacion_usuario_tipo_actividad(session):
             return
 
         if start_date > end_date:
-            print("\nLa fecha inicial no puede ser mayor que la fecha final.\n")
+            print("La fecha inicial no puede ser mayor que la fecha final.")
             return
 
         start_datetime = datetime.combine(start_date, datetime.min.time())
@@ -548,22 +763,38 @@ def cassandra_r8_participacion_usuario_tipo_actividad(session):
             ORDER BY attendance_timestamp DESC;
         """
 
-        rows = session.execute(query, (user_id, activity_type, start_datetime, end_datetime))
+        rows = []
+        selected_activity_type = None
 
-    rows = list(rows)
+        for activity_type in activity_candidates:
+            rows = list(
+                session.execute(
+                    query,
+                    (user_id, activity_type, start_datetime, end_datetime)
+                )
+            )
+
+            if rows:
+                selected_activity_type = activity_type
+                break
 
     if not rows:
-        print(f"\nNo se encontró participación para el usuario {user_id} en la actividad '{activity_type}'.\n")
+        print(f"No se encontró participación para el usuario {user_id} en la actividad ingresada.")
+        print("Revisa que el tipo de actividad esté escrito igual que en tus datos.")
         return
 
-    print(f"\nParticipación histórica del usuario {user_id} en actividades de tipo '{activity_type}':")
-    print("-" * 80)
+    print("\n===== PARTICIPACIÓN POR TIPO DE ACTIVIDAD =====\n")
+    print(f"Usuario consultado: {user_id}")
+    print(f"Tipo de actividad: {selected_activity_type}")
+    print(f"Participaciones encontradas: {len(rows)}\n")
 
-    for row in rows:
-        print(f"Usuario: {row.user_id}")
+    for index, row in enumerate(rows, start=1):
+        _print_separator()
+        print(f"{index}. Evento: {row.event_name} ({row.event_id})")
         print(f"Tipo de actividad: {row.activity_type}")
-        print(f"Evento: {row.event_name}")
-        print(f"ID del evento: {row.event_id}")
-        print(f"Estado de asistencia: {row.attendance_status}")
-        print(f"Fecha de asistencia: {row.attendance_timestamp}")
-        print("-" * 80)
+        print(f"Fecha de participación: {row.attendance_timestamp}")
+        print(f"Estado: {row.attendance_status}")
+        _print_separator()
+        print()
+
+    _print_end()
