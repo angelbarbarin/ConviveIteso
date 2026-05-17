@@ -37,6 +37,7 @@ from Queries.dgraph_queries import (
     dgraph_r8_tipos_eventos_conectan_usuarios
 )
 
+
 def mostrar_menu_principal():
     print("\n===== RESERVA ITESO - MENÚ PRINCIPAL =====")
     print("1. Historial y actividad de usuarios")
@@ -45,7 +46,7 @@ def mostrar_menu_principal():
     print("4. Analíticas y métricas")
     print("5. Consultas de relaciones en grafo")
     print("0. Salir")
-    
+
 
 def menu_historial():
     print("\n--- Historial y actividad de usuarios ---")
@@ -72,8 +73,7 @@ def menu_espacios():
     print("2. Reservaciones de un espacio en una fecha")
     print("3. Historial de uso de un espacio")
     print("4. Últimos 10 check-ins en un espacio")
-    print("5. Reservaciones canceladas por usuario")
-    print("6. Reservaciones canceladas por espacio")
+    print("5. Historial de reservaciones canceladas")
     print("0. Volver")
 
 
@@ -116,12 +116,13 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
         elif tipo == "grafo":
             menu_grafo()
 
-        opcion = input("Selecciona una opción: ")
+        opcion = input("Selecciona una opción: ").strip()
 
         if opcion == "0":
             break
+
         # =========================
-        # CONSULTAS CASSANDRA EN HISTORIAL
+        # HISTORIAL / CASSANDRA
         # =========================
         if tipo == "historial":
             if opcion == "1":
@@ -135,33 +136,59 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
             elif opcion == "5":
                 cassandra_r8_participacion_usuario_tipo_actividad(cassandra_session)
             else:
-                ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
+                print("Opción inválida en historial.")
 
+        # =========================
+        # EVENTOS / MONGODB + CASSANDRA
+        # =========================
         elif tipo == "eventos":
             if opcion == "1":
                 mongo_r1_evento_especifico(mongo_db)
-            if opcion == "2":
+            elif opcion == "2":
                 mongo_r2_eventos_por_tipo_y_fecha(mongo_db)
-            if opcion == "3":
-                mongo_r3_espacios_disponibles_para_reserva(mongo_db)
-            if opcion == "4":
+            elif opcion == "3":
+                mongo_r5_eventos_por_organizador(mongo_db)
+            elif opcion == "4":
                 cassandra_r3_asistencias_por_evento(cassandra_session)
             else:
-                ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
+                print("Opción inválida en consulta de eventos.")
 
+        # =========================
+        # ESPACIOS / MONGODB + CASSANDRA
+        # =========================
         elif tipo == "espacios":
             if opcion == "1":
                 mongo_r3_espacios_disponibles_para_reserva(mongo_db)
-            if opcion == "2":
+            elif opcion == "2":
                 mongo_r4_reservaciones_espacio_fecha(mongo_db)
-            if opcion == "3":
+            elif opcion == "3":
                 cassandra_r4_historial_uso_espacio(cassandra_session)
             elif opcion == "4":
                 cassandra_r6_ultimos_checkins_espacio(cassandra_session)
+            elif opcion == "5":
+                cassandra_r7_historial_reservaciones_canceladas(cassandra_session)
             else:
-                ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
+                print("Opción inválida en espacios y reservaciones.")
+
         # =========================
-        # CONSULTAS DGRAPH EN GRAFO
+        # ANALÍTICAS / MONGODB + DGRAPH
+        # =========================
+        elif tipo == "analiticas":
+            if opcion == "1":
+                mongo_r6_total_eventos_por_tipo(mongo_db)
+            elif opcion == "2":
+                mongo_r7_total_reservaciones_por_tipo_espacio(mongo_db)
+            elif opcion == "3":
+                mongo_r8_eventos_mayor_demanda(mongo_db)
+            elif opcion == "4":
+                dgraph_r6_organizadores_por_tipo_usuario(dgraph_client)
+            elif opcion == "5":
+                dgraph_r8_tipos_eventos_conectan_usuarios(dgraph_client)
+            else:
+                print("Opción inválida en analíticas.")
+
+        # =========================
+        # GRAFO / DGRAPH
         # =========================
         elif tipo == "grafo":
             if opcion == "1":
@@ -179,25 +206,6 @@ def ejecutar_submenu(tipo, mongo_db=None, cassandra_session=None, dgraph_client=
             else:
                 print("Opción inválida en consultas de grafo.")
 
-        # =========================
-        # CONSULTAS DGRAPH EN ANALÍTICAS
-        # =========================
-        elif tipo == "analiticas":
-            if opcion == "1":
-                mongo_r6_total_eventos_por_tipo(mongo_db)
-            if opcion == "2":
-                mongo_r7_total_reservaciones_por_tipo_espacio(mongo_db)
-            if opcion == "3":
-                mongo_r8_eventos_mayor_demanda(mongo_db)
-            if opcion == "4":
-                dgraph_r6_organizadores_por_tipo_usuario(dgraph_client)
-            elif opcion == "5":
-                dgraph_r8_tipos_eventos_conectan_usuarios(dgraph_client)
-            else:
-                ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
-
-        else:
-            ejecutar_opcion(f"{tipo.upper()} - Opción {opcion}")
 
 def main():
     mongo_db = get_mongo_db()
@@ -206,7 +214,7 @@ def main():
 
     while True:
         mostrar_menu_principal()
-        opcion = input("Selecciona una sección: ")
+        opcion = input("Selecciona una sección: ").strip()
 
         if opcion == "1":
             ejecutar_submenu("historial", mongo_db, cassandra_session, dgraph_client)
@@ -223,7 +231,6 @@ def main():
             break
         else:
             print("Opción inválida. Intenta de nuevo.")
-
 
 
 if __name__ == "__main__":
